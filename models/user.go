@@ -4,7 +4,7 @@ import "time"
 
 type User struct {
 	ID int64
-	UUID string `sql:"size:36;index"`
+	UUID string `sql:"not NULL;size:36;unique"`
 	RollCount int `sql:"DEFAULT:0"`
 	CreatedAt time.Time
 	UpdatedAt time.Time

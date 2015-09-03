@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<p>user index</p>
+{{range .}}
+<a href="/user/edit/{{.Id}}">{{.Name}}</a><br />
+{{end}}
+<a href="/user/new">new</a>
+
+</body>
+</html>
