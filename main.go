@@ -18,6 +18,8 @@ func main() {
 
 	user.Use(middleware.SubRouter)
 	user.Get("/index", UserIndex)
+	user.Get("/add", UserAdd)
+	user.Post("/add", UserAdd)
 	goji.Serve()
 }
 

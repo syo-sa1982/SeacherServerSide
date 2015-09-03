@@ -23,3 +23,9 @@ func UserIndex(c web.C, w http.ResponseWriter, r *http.Request){
 	tpl = template.Must(template.ParseFiles("views/user/index.html"))
 	tpl.Execute(w, Users)
 }
+
+func UserAdd(c web.C, w http.ResponseWriter, r *http.Request){
+	r.ParseForm()
+	log.Print("add")
+	log.Print(r.Form)
+}
