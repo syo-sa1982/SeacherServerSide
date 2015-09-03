@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"github.com/syo-sa1982/SeacherServerSide/models"
+	"strconv"
 )
 
 var tpl *template.Template
@@ -28,4 +29,7 @@ func UserAdd(c web.C, w http.ResponseWriter, r *http.Request){
 	r.ParseForm()
 	log.Print("add")
 	log.Print(r.Form)
+	User := models.User{UUID: r.FormValue("uuid")}
+	User.RollCount, _ = strconv.Atoi(r.FormValue("roll_count"))
+	db.Create(&User)
 }
