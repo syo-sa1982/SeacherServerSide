@@ -1,4 +1,4 @@
-package models
+package model
 
 type Player struct {
 	ID int64
