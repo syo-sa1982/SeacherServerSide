@@ -25,6 +25,7 @@ func main() {
 	user.Get("/index", cntr.UserIndex)
 	user.Get("/add", cntr.UserAdd)
 	user.Post("/add", cntr.UserAdd)
+	user.Get("/auth", cntr.UserAuth)
 	user.Post("/auth", cntr.UserAuth)
 	goji.Serve()
 }
