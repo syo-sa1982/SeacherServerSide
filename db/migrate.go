@@ -8,6 +8,7 @@ import (
 
 func main(){
 	db, _ := gorm.Open("mysql", "root:@/seacher?charset=utf8&parseTime=True")
-	db.CreateTable(&model.User{})
+	db.DropTable(&model.User{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.User{})
 //	db.CreateTable(&models.Player{})
 }
