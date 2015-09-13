@@ -14,7 +14,7 @@ type Dice struct {
 func (this Dice) DiceRoll(surface int, rollcount int) (int, []int) {
 	for i := 0; i < rollcount; i++ {
 		rand.Seed(time.Now().UnixNano())
-		this.RollHistory = append(this.RollHistory, rand.Intn(surface))
+		this.RollHistory = append(this.RollHistory, rand.Intn(surface) + 1)
 		this.TotalScore += this.RollHistory[i]
 	}
 	log.Println(this.RollHistory)
