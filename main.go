@@ -18,8 +18,10 @@ var (
 func main() {
 	log.Print("main")
 	user := web.New()
+	player := web.New()
 
 	goji.Handle("/user/*", user)
+	goji.Handle("/player/*", player)
 
 	user.Use(middleware.SubRouter)
 	user.Get("/index", cntr.UserIndex)
@@ -27,8 +29,10 @@ func main() {
 	user.Post("/add", cntr.UserAdd)
 	user.Get("/auth", cntr.UserAuth)
 	user.Post("/auth", cntr.UserAuth)
-	user.Get("/player_base_make", cntr.PlayerBaseMake)
-	user.Post("/player_base_make", cntr.PlayerBaseMake)
+
+	player.Use(middleware.SubRouter)
+	player.Get("/base_make", cntr.PlayerBaseMake)
+	player.Post("/base_make", cntr.PlayerBaseMake)
 	goji.Serve()
 }
 

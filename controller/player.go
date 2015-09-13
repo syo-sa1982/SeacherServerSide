@@ -4,14 +4,20 @@ import (
 	"net/http"
 	"github.com/syo-sa1982/SeacherServerSide/util"
 	"log"
+	"encoding/json"
 )
 
 func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
 	var dice = util.Roll(6, 3) // 3D6
 
+	r.ParseForm()
+
+	log.Print(r.Form)
+
 	log.Println(dice.TotalRolls)
 	log.Println(dice.TotalScore)
 	log.Println(dice.RollHistory)
 
-
+	encoder := json.NewEncoder(w)
+	encoder.Encode(dice)
 }
