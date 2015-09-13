@@ -27,6 +27,8 @@ func main() {
 	user.Post("/add", cntr.UserAdd)
 	user.Get("/auth", cntr.UserAuth)
 	user.Post("/auth", cntr.UserAuth)
+	user.Get("/player_base_make", cntr.PlayerBaseMake)
+	user.Post("/player_base_make", cntr.PlayerBaseMake)
 	goji.Serve()
 }
 
