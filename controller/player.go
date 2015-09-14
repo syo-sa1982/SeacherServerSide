@@ -12,19 +12,19 @@ import (
 func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
+	var totalScores map[string]int = make(map[string]int)
+	var historys map[string][]int = make(map[string][]int)
 
 	for key, value := range r.Form {
 		log.Println("key:", key, " value:", value)
+		totalScores[key] ,historys[key] = parameterGenerate(r, key)
 	}
 
-	var totalScore, rollHistory = parameterGenerate(r, "Strength")
-
-
-	log.Println(totalScore)
-	log.Println(rollHistory)
+	log.Println(totalScores)
+	log.Println(historys)
 
 	encoder := json.NewEncoder(w)
-	encoder.Encode(totalScore)
+	encoder.Encode(totalScores)
 }
 
 
