@@ -10,24 +10,30 @@ import (
 )
 
 func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
-
-
 	r.ParseForm()
 
-	log.Print(r.Form)
-	r.FormValue("Strength")
-	split := strings.Split(r.FormValue("Strength"), ",")
 
-	serface, _ := strconv.Atoi(split[0])
-	rollCount, _ := strconv.Atoi(split[1])
+	for key, value := range r.Form {
+		log.Println("key:", key, " value:", value)
+	}
 
-	var totalScore, rollHistory = util.Dice{}.DiceRoll(serface, rollCount) // 3D6
+	var totalScore, rollHistory = parameterGenerate(r, "Strength")
 
-	log.Print(split)
 
 	log.Println(totalScore)
 	log.Println(rollHistory)
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(totalScore)
+}
+
+
+
+func parameterGenerate(r *http.Request, key string) (int, []int) {
+
+	split := strings.Split(r.FormValue(key), ",")
+	serface, _ := strconv.Atoi(split[0])
+	rollCount, _ := strconv.Atoi(split[1])
+
+	return util.Dice{}.DiceRoll(serface, rollCount)
 }
