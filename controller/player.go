@@ -7,9 +7,11 @@ import (
 	"encoding/json"
 	"strings"
 	"strconv"
+	"github.com/syo-sa1982/SeacherServerSide/model"
 )
 
 func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
+
 	r.ParseForm()
 
 	var totalScores map[string]int = make(map[string]int)
@@ -25,6 +27,19 @@ func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Re
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(totalScores)
+}
+
+func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
+	var db = cntr.db
+	User := model.User{}
+	r.ParseForm()
+	User.UUID = r.FormValue("uuid")
+	db.Find(&User)
+
+	Player := model.Player{UserID:User.ID,Name:User.Name}
+
+	log.Println(Player)
+
 }
 
 
