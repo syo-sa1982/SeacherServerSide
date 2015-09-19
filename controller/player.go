@@ -36,12 +36,11 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 	User.UUID = r.FormValue("uuid")
 	db.Find(&User)
 
-	Player := model.Player{UserID:User.ID,Name:User.Name}
+	Player := model.PlayerBase{UserID:User.ID,Name:User.Name}
 
 	log.Println(Player)
 
 }
-
 
 
 func parameterGenerate(r *http.Request, key string) (int, []int) {
