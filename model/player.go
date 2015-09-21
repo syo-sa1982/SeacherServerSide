@@ -1,8 +1,12 @@
 package model
-import "time"
+import (
+	"github.com/jinzhu/gorm"
+	"database/sql"
+)
 
 type PlayerBase struct {
-	ID int64
+	gorm.Model
+
 	UserID int64 `sql:"not NULL;unique"`
 	Name string `sql:"size:255"`
 
@@ -15,14 +19,14 @@ type PlayerBase struct {
 	Intelligence int
 	Education    int
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time
+	Status PlayerStatus
+	StatusID sql.NullInt64
+	PlayerSkills []PlayerSkill
 }
 
 type PlayerStatus struct {
-	ID       int64
-	PlayerID int64 `sql:"not NULL;unique"`
+	gorm.Model
+
 	UserID   int64 `sql:"not NULL;"`
 
 	HP              int
@@ -35,14 +39,11 @@ type PlayerStatus struct {
 	JopSkillPoint   int
 	HobbySkillPoint int
 	DamageBonus     int
-
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time
 }
 
-type PlayerSkills struct {
-	ID       int64
+type PlayerSkill struct {
+	gorm.Model
+
 	PlayerID int64`sql:"not NULL;"`
 	SkillValue int
 }
