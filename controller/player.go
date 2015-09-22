@@ -15,15 +15,17 @@ func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Re
 	r.ParseForm()
 
 	var totalScores map[string]int = make(map[string]int)
-	var historys map[string][]int = make(map[string][]int)
+	var history map[string][]int = make(map[string][]int)
+	var status map[string]int = make(map[string]int)
 
 	for key, value := range r.Form {
 		log.Println("key:", key, " value:", value)
-		totalScores[key] ,historys[key] = parameterGenerate(r, key)
+		totalScores[key] , history[key] = parameterGenerate(r, key)
 	}
 
-	log.Println(totalScores)
-	log.Println(historys)
+	status["hp"] = calcHitPoint(totalScores["Constitution"],totalScores["Size"])
+
+	log.Println("hp", status["hp"])
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(totalScores)
@@ -50,4 +52,7 @@ func parameterGenerate(r *http.Request, key string) (int, []int) {
 	rollCount, _ := strconv.Atoi(split[1])
 
 	return util.Dice{}.DiceRoll(serface, rollCount)
+}
+func calcHitPoint(constitution int, size int) int {
+	return (constitution + size ) / 2;
 }

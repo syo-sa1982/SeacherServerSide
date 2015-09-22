@@ -1,6 +1,7 @@
 package model
+import "github.com/jinzhu/gorm"
 
 type SkillMaster struct {
-	ID        int64
+	gorm.Model
 	SkillName string
 }
