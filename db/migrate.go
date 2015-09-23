@@ -11,4 +11,6 @@ func main(){
 //	db.DropTable(&model.User{})
 	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.User{})
 	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerBase{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerStatus{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerSkill{})
 }
