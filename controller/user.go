@@ -46,9 +46,23 @@ func (cntr Controller) UserAuth(c web.C, w http.ResponseWriter, r *http.Request)
 	log.Print("Auth")
 	User := model.User{}
 	r.ParseForm()
-	User.UUID = r.FormValue("uuid")
-	db.Find(&User)
+	db.Where("UUID = ?", r.FormValue("uuid")).Find(&User)
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(User)
 }
+
+func (cntr Controller) UserCharacterCheck(c web.C, w http.ResponseWriter, r *http.Request){
+	var db = cntr.db
+	User := model.User{}
+	Player := model.PlayerStatus{}
+	count := 0
+	r.ParseForm()
+	db.Where("UUID = ?", r.FormValue("uuid")).Find(&User)
+	db.Model(Player).Where("UserID = ?", User.ID).Count(&count)
+	db.Where("UUID = ?", r.FormValue("uuid")).Find(&Player)
+
+	encoder := json.NewEncoder(w)
+	encoder.Encode(count)
+}
+
