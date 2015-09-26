@@ -23,12 +23,11 @@ func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Re
 		totalScores[key] , history[key] = generateBaseStatus(r, key)
 	}
 	var charaStatus = generateCharaStatus(totalScores)
-	log.Println(totalScores)
-	log.Println(charaStatus)
 
 	charaMakeAPI.BaseStatus = totalScores
 	charaMakeAPI.CharaStatus = charaStatus
 	charaMakeAPI.DiceHistory = history
+	log.Println(charaMakeAPI)
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(charaMakeAPI)

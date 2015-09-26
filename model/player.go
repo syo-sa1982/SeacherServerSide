@@ -25,6 +25,8 @@ type PlayerStatus struct {
 	UserID   uint `sql:"not NULL;"`
 	PlayerID uint`sql:"not NULL;index"`
 
+	MaxHP           int
+	MaxMP           int
 	HP              int
 	MP              int
 	Sanity          int
