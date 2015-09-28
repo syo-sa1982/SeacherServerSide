@@ -38,6 +38,12 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 	User := model.User{}
 	r.ParseForm()
 	User.UUID = r.FormValue("uuid")
+
+	log.Println(r.Form)
+
+//	var charaStatus = generateCharaStatus(r.Form)
+
+//	log.Println(charaStatus)
 	db.Find(&User)
 
 	Player := model.PlayerBase{UserID:User.ID,Name:User.Name}
