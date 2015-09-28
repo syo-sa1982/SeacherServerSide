@@ -37,14 +37,19 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 	var db = cntr.db
 	User := model.User{}
 	r.ParseForm()
-	User.UUID = r.FormValue("uuid")
-
-	log.Println(r.Form)
-
-//	var charaStatus = generateCharaStatus(r.Form)
-
-//	log.Println(charaStatus)
+	User.UUID = r.FormValue("UUID")
 	db.Find(&User)
+
+	var BaseStatus map[string]int = make(map[string]int)
+	log.Println(r.Form)
+	for key, value := range r.Form {
+		log.Println("key:", key, " value:", value)
+		if key != "UUID" {
+			BaseStatus[key], _ = strconv.Atoi(value[0])
+		}
+	}
+	var charaStatus = generateCharaStatus(BaseStatus)
+	log.Println(charaStatus)
 
 	Player := model.PlayerBase{UserID:User.ID,Name:User.Name}
 
