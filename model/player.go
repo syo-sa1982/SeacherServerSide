@@ -6,7 +6,7 @@ import (
 type PlayerBase struct {
 	gorm.Model
 
-	UserID uint `sql:"not NULL;unique"`
+	UserID uint `sql:"not NULL;"`
 	Name string `sql:"size:255"`
 
 	Strength     int

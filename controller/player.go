@@ -15,14 +15,14 @@ func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Re
 	charaMakeAPI := cntr.charaStatus
 	r.ParseForm()
 
-	var totalScores map[string]int = make(map[string]int)
-	var history map[string][]int = make(map[string][]int)
+	var totalScores = make(map[string]int)
+	var history = make(map[string][]int)
 
 	for key, value := range r.Form {
 		log.Println("key:", key, " value:", value)
 		totalScores[key] , history[key] = generateBaseStatus(r, key)
 	}
-	var charaStatus = generateCharaStatus(totalScores)
+	var charaStatus = generatePlayerStatusMap(totalScores)
 
 	charaMakeAPI.BaseStatus = totalScores
 	charaMakeAPI.CharaStatus = charaStatus
@@ -40,7 +40,7 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 	User.UUID = r.FormValue("UUID")
 	db.Find(&User)
 
-	var BaseStatus map[string]int = make(map[string]int)
+	var BaseStatus = make(map[string]int)
 	log.Println(r.Form)
 	for key, value := range r.Form {
 		log.Println("key:", key, " value:", value)
@@ -48,14 +48,42 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 			BaseStatus[key], _ = strconv.Atoi(value[0])
 		}
 	}
-	var charaStatus = generateCharaStatus(BaseStatus)
+	var charaStatus = generatePlayerStatusMap(BaseStatus)
 	log.Println(charaStatus)
 
-	Player := model.PlayerBase{UserID:User.ID,Name:User.Name}
+	playerBase := model.PlayerBase{}
+	MapToStruct(BaseStatus, &playerBase)
+	playerBase.UserID = User.ID
+	playerBase.Name = User.Name
+	db.Create(&playerBase)
 
-	log.Println(Player)
+	log.Println(playerBase)
+
+	playerStatus := model.PlayerStatus{}
+	MapToStruct(charaStatus, &playerStatus)
+	playerStatus.UserID = User.ID
+	playerStatus.PlayerID = playerBase.ID
+	playerStatus.MaxHP = charaStatus["HP"]
+	playerStatus.MaxMP = charaStatus["MP"]
+
+	db.Create(&playerStatus)
+
+	log.Println(playerStatus)
 
 }
+
+func MapToStruct(m map[string]int, val interface{}) error {
+	tmp, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(tmp, val)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 
 
 func generateBaseStatus(r *http.Request, key string) (int, []int) {
@@ -65,7 +93,7 @@ func generateBaseStatus(r *http.Request, key string) (int, []int) {
 	return util.Dice{}.DiceRoll(serface, rollCount)
 }
 
-func generateCharaStatus(baseStatus map[string]int) map[string]int {
+func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
 	return map[string]int{
 		"HP" : calcDivision(2, baseStatus["Constitution"], baseStatus["Size"]),
 		"MP" : baseStatus["Power"],
