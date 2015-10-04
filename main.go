@@ -33,6 +33,7 @@ func main() {
 	player.Use(middleware.SubRouter)
 	player.Post("/base_make", cntr.PlayerBaseMake)
 	player.Post("/generate", cntr.PlayerGenerate)
+	player.Post("/list", cntr.PlayerList)
 	goji.Serve()
 }
 
