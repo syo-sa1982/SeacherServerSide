@@ -60,7 +60,6 @@ func (cntr Controller) UserCharacterCheck(c web.C, w http.ResponseWriter, r *htt
 	r.ParseForm()
 	db.Where("UUID = ?", r.FormValue("uuid")).Find(&User)
 	db.Model(Player).Where("UserID = ?", User.ID).Count(&count)
-	db.Where("UUID = ?", r.FormValue("uuid")).Find(&Player)
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(count)

@@ -72,6 +72,23 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 
 }
 
+func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
+	var db = cntr.db
+	User := model.User{}
+	Player := model.PlayerStatus{}
+	r.ParseForm()
+	log.Println(r.FormValue("UUID"))
+
+	db.Model(User).Where("uuid = ?", r.FormValue("UUID")).Find(&User)
+	log.Println(User.ID)
+	db.Model(Player).Where("user_id = ?", User.ID).Find(&Player)
+
+	log.Println(Player)
+
+	encoder := json.NewEncoder(w)
+	encoder.Encode(Player)
+}
+
 func MapToStruct(m map[string]int, val interface{}) error {
 	tmp, err := json.Marshal(m)
 	if err != nil {
