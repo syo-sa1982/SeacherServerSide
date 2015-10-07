@@ -25,9 +25,7 @@ func main() {
 
 	user.Use(middleware.SubRouter)
 	user.Get("/index", cntr.UserIndex)
-	user.Get("/add", cntr.UserAdd)
 	user.Post("/add", cntr.UserAdd)
-	user.Get("/auth", cntr.UserAuth)
 	user.Post("/auth", cntr.UserAuth)
 
 	player.Use(middleware.SubRouter)
