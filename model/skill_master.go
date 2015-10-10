@@ -78,4 +78,8 @@ var SkillMasterList = []SkillMaster{
 	SkillMaster{CategoryID:4,SkillName:"ショットガン",Value:30},
 	SkillMaster{CategoryID:4,SkillName:"マシンガン",Value:15},
 	SkillMaster{CategoryID:4,SkillName:"ライフル",Value:25},
+	SkillMaster{CategoryID:2,SkillName:"キック",Value:25},
+	SkillMaster{CategoryID:2,SkillName:"組み付き",Value:25},
+	SkillMaster{CategoryID:2,SkillName:"こぶし",Value:50},
+	SkillMaster{CategoryID:2,SkillName:"頭突き",Value:10},
 }
