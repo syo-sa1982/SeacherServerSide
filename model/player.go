@@ -42,6 +42,5 @@ type PlayerStatus struct {
 type PlayerSkill struct {
 	gorm.Model
 	PlayerID uint`sql:"not NULL;index;"`
-	SkillIDs string
-	SkillValue int
+	Skills string
 }
