@@ -72,6 +72,14 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 
 }
 
+func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
+	var db = cntr.db
+	skillMaster := model.SkillMaster{}
+
+	db.Find(&skillMaster)
+	println(skillMaster)
+}
+
 func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	User := model.User{}

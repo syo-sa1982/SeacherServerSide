@@ -13,6 +13,11 @@ type CharaMakeAPI struct {
 	DiceHistory map[string][]int
 }
 
+
+type SkillSetAPI struct {
+
+}
+
 func AppContext(db gorm.DB) Controller {
 	return Controller{db: db}
 }
