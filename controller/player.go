@@ -77,7 +77,9 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 	skillMaster := model.SkillMaster{}
 
 	db.Find(&skillMaster)
-	println(skillMaster)
+	log.Println(skillMaster)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(skillMaster)
 }
 
 func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
