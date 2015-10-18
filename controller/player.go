@@ -8,6 +8,7 @@ import (
 	"strings"
 	"strconv"
 	"github.com/syo-sa1982/SeacherServerSide/model"
+	"fmt"
 )
 
 func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -74,12 +75,13 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 
 func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
-	skillMaster := model.SkillMaster{}
-
+	skillMaster := []model.SkillMaster{}
 	db.Find(&skillMaster)
-	log.Println(skillMaster)
+
+	skillMap :=getSkillMasterMap(skillMaster)
+	log.Println(skillMap)
 	encoder := json.NewEncoder(w)
-	encoder.Encode(skillMaster)
+	encoder.Encode(skillMap)
 }
 
 func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -98,6 +100,7 @@ func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Reques
 	encoder := json.NewEncoder(w)
 	encoder.Encode(Player)
 }
+
 
 func MapToStruct(m map[string]int, val interface{}) error {
 	tmp, err := json.Marshal(m)
@@ -138,4 +141,16 @@ func calcDivision(multiple int, params ...int) int {
 	for _ , param := range params { sum += param }
 	if sum > 0 { return sum / multiple
 	} else { return sum }
+}
+
+func getSkillMasterMap(skillMasters []model.SkillMaster) map[string]model.SkillMaster {
+	log.Println(skillMasters)
+	log.Println(skillMasters[0])
+	skillmap := map[string]model.SkillMaster{}
+
+	for _,skillMaster := range skillMasters {
+		skillmap[fmt.Sprint(skillMaster.ID)] = skillMaster
+	}
+
+	return skillmap
 }
