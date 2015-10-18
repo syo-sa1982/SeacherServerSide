@@ -20,6 +20,8 @@ var SkillCategoryList = []SkillCategory{
 	SkillCategory{CategoryName:"戦闘"},
 	SkillCategory{CategoryName:"探索"},
 	SkillCategory{CategoryName:"火器"},
+	SkillCategory{CategoryName:"特殊"},
+	SkillCategory{CategoryName:"神話"},
 }
 var SkillMasterList = []SkillMaster{
 	SkillMaster{CategoryID:3,SkillName:"言いくるめ",Value:5},
@@ -34,7 +36,7 @@ var SkillMasterList = []SkillMaster{
 	SkillMaster{CategoryID:3,SkillName:"隠れる",Value:10},
 	SkillMaster{CategoryID:3,SkillName:"機械修理",Value:20},
 	SkillMaster{CategoryID:3,SkillName:"聞き耳",Value:25},
-	SkillMaster{CategoryID:3,SkillName:"クトゥルフ神話",Value:0},
+	SkillMaster{CategoryID:5,SkillName:"クトゥルフ神話",Value:0},
 	SkillMaster{CategoryID:3,SkillName:"芸術",Value:5},
 	SkillMaster{CategoryID:3,SkillName:"経理",Value:10},
 	SkillMaster{CategoryID:3,SkillName:"考古学",Value:1},
@@ -44,7 +46,7 @@ var SkillMasterList = []SkillMaster{
 	SkillMaster{CategoryID:3,SkillName:"重機械操作",Value:1},
 	SkillMaster{CategoryID:3,SkillName:"乗馬",Value:5},
 	SkillMaster{CategoryID:3,SkillName:"信用",Value:15},
-	SkillMaster{CategoryID:3,SkillName:"心理学",Value:5},
+	SkillMaster{CategoryID:4,SkillName:"心理学",Value:5},
 	SkillMaster{CategoryID:3,SkillName:"人類学",Value:1},
 	SkillMaster{CategoryID:3,SkillName:"水泳",Value:25},
 	SkillMaster{CategoryID:3,SkillName:"製作",Value:5},
