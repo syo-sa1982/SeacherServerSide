@@ -1,11 +1,13 @@
 package controller
 import (
 	"github.com/jinzhu/gorm"
+	"github.com/syo-sa1982/SeacherServerSide/model"
 )
 
 type Controller struct {
 	db gorm.DB
 	charaStatus CharaMakeAPI
+	SkillSetAPI
 }
 
 type CharaMakeAPI struct {
@@ -15,7 +17,8 @@ type CharaMakeAPI struct {
 
 
 type SkillSetAPI struct {
-
+	SkillMaster map[string]model.SkillMaster
+	PlayerStatus model.PlayerStatus
 }
 
 func AppContext(db gorm.DB) Controller {

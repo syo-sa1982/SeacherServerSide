@@ -75,13 +75,27 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 
 func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
+	var SkillSet = cntr.SkillSetAPI
+
+	User := model.User{}
+	Player := model.PlayerStatus{}
+	r.ParseForm()
+	log.Println(r.FormValue("UUID"))
+
+	db.Model(User).Where("uuid = ?", r.FormValue("UUID")).Find(&User)
+	log.Println(User.ID)
+	db.Model(Player).Where("user_id = ?", User.ID).Find(&Player)
+
+	SkillSet.PlayerStatus = Player
+
 	skillMaster := []model.SkillMaster{}
 	db.Find(&skillMaster)
 
-	skillMap :=getSkillMasterMap(skillMaster)
-	log.Println(skillMap)
+	SkillSet.SkillMaster = getSkillMasterMap(skillMaster)
+
+	log.Println(SkillSet)
 	encoder := json.NewEncoder(w)
-	encoder.Encode(skillMap)
+	encoder.Encode(SkillSet)
 }
 
 func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -144,8 +158,6 @@ func calcDivision(multiple int, params ...int) int {
 }
 
 func getSkillMasterMap(skillMasters []model.SkillMaster) map[string]model.SkillMaster {
-	log.Println(skillMasters)
-	log.Println(skillMasters[0])
 	skillmap := map[string]model.SkillMaster{}
 
 	for _,skillMaster := range skillMasters {
