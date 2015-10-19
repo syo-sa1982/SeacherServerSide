@@ -33,6 +33,7 @@ func main() {
 	player.Post("/generate", cntr.PlayerGenerate)
 	player.Post("/list", cntr.PlayerList)
 	player.Get("/skill_setting", cntr.SkillSetting)
+	player.Post("/skill_setting", cntr.SkillSetting)
 	goji.Serve()
 }
 
