@@ -145,7 +145,7 @@ func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
 		"Luck" : baseStatus["Power"] * 5,
 		"Idea" : baseStatus["Intelligence"] * 5,
 		"Knowledge" : baseStatus["Education"] * 5,
-		"JopSkillPoint" : baseStatus["Education"] * 20,
+		"JobSkillPoint" : baseStatus["Education"] * 20,
 		"HobbySkillPoint" : baseStatus["Intelligence"] * 10,
 		"DamageBonus" : baseStatus["Strength"] + baseStatus["Size"]}
 }

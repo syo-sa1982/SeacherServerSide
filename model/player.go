@@ -34,7 +34,7 @@ type PlayerStatus struct {
 	Idea            int
 	Knowledge       int
 
-	JopSkillPoint   int
+	JobSkillPoint   int
 	HobbySkillPoint int
 	DamageBonus     int
 }
