@@ -8,6 +8,9 @@ import (
 	"github.com/zenazn/goji/web"
 	"github.com/zenazn/goji/web/middleware"
 	"github.com/syo-sa1982/SeacherServerSide/controller"
+	"os"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 )
 
 var (
@@ -38,6 +41,20 @@ func main() {
 }
 
 func init() {
-	db, _ = gorm.Open("mysql", "root:@/seacher?charset=utf8&parseTime=True")
+	yml, err := ioutil.ReadFile("conf/db.yaml")
+	if err != nil {
+		panic(err)
+	}
+
+	t := make(map[interface{}]interface{})
+
+	_ = yaml.Unmarshal([]byte(yml), &t)
+
+	conn := t[os.Getenv("GOJIENV")].(map[interface{}]interface{})
+
+	db, err := gorm.Open("mysql", conn["user"].(string)+conn["password"].(string)+"@/"+conn["db"].(string)+"?charset=utf8&parseTime=True")
+	if err != nil {
+		panic(err)
+	}
 	cntr = controller.AppContext(db)
 }

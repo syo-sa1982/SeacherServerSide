@@ -1,0 +1,13 @@
+driver: mysql
+development:
+  user: root
+  password: ""
+  db: seacher
+production:
+  user: hoge
+  password: fuga
+  db: seacher
+test:
+  user: root
+  password: ""
+  db: seacher_test
