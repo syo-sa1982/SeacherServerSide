@@ -1,16 +1,13 @@
 package model
-import (
-	"github.com/jinzhu/gorm"
-)
 
 type SkillMaster struct {
-	gorm.Model
+	ID         uint
 	CategoryID int
 	SkillName  string
 	Value      int
 }
 type SkillCategory struct {
-	gorm.Model
+	ID           int
 	CategoryName string
 }
 

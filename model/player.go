@@ -1,10 +1,10 @@
 package model
 import (
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type PlayerBase struct {
-	gorm.Model
+	ID   uint
 
 	UserID uint `sql:"not NULL;"`
 	Name string `sql:"size:255"`
@@ -17,13 +17,18 @@ type PlayerBase struct {
 	Size         int
 	Intelligence int
 	Education    int
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time
 }
 
 type PlayerStatus struct {
-	gorm.Model
+	ID   uint
 
 	UserID   uint `sql:"not NULL;"`
-	PlayerID uint`sql:"not NULL;index"`
+	PlayerID uint `sql:"not NULL;unique_index"`
+	JobID    uint
 
 	MaxHP           int
 	MaxMP           int
@@ -37,10 +42,14 @@ type PlayerStatus struct {
 	JobSkillPoint   int
 	HobbySkillPoint int
 	DamageBonus     int
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time
 }
 
 type PlayerSkill struct {
-	gorm.Model
-	PlayerID uint`sql:"not NULL;index;"`
-	Skills string
+	PlayerID uint `gorm:"primary_key"sql:"not NULL;"`
+	SkillID  uint `gorm:"primary_key"sql:"not NULL;"`
+	Value    int
 }
