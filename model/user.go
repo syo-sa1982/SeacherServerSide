@@ -1,13 +1,17 @@
 package model
 
 import (
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type User struct {
-	gorm.Model
+	ID   uint
 
 	UUID string `sql:"not NULL;size:36;unique"`
 	Name string `sql:"size:255;"`
 	RollCount int `sql:"DEFAULT:0"`
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time
 }
