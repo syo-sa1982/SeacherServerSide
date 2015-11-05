@@ -49,7 +49,9 @@ type PlayerStatus struct {
 }
 
 type PlayerSkill struct {
-	PlayerID uint `gorm:"primary_key"sql:"not NULL;"`
-	SkillID  uint `gorm:"primary_key"sql:"not NULL;"`
+	ID       uint
+
+	PlayerID uint `sql:"not NULL;index"`
+	SkillID  uint `sql:"not NULL;index"`
 	Value    int
 }
