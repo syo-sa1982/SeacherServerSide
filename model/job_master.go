@@ -26,4 +26,8 @@ var JobSkillList = []JobSkillMaster{
 	JobSkillMaster{JobID:1,SkillID:23,SkillType:0},
 	JobSkillMaster{JobID:1,SkillID:33,SkillType:0},
 	JobSkillMaster{JobID:1,SkillID:39,SkillType:0},
+	JobSkillMaster{JobID:1,SkillID:12,SkillType:1},
+	JobSkillMaster{JobID:1,SkillID:19,SkillType:1},
+	JobSkillMaster{JobID:1,SkillID:41,SkillType:1},
+	JobSkillMaster{JobID:1,SkillID:59,SkillType:1},
 }
