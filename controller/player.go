@@ -87,10 +87,16 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 
 	SkillSet.PlayerStatus = Player
 
-	skillMasters := []model.SkillMaster{}
-	db.Order("ID", true).Find(&skillMasters)
+	SkillMasters := []model.SkillMaster{}
+	db.Order("ID", true).Find(&SkillMasters)
+	JobMasters := []model.JobMaster{}
+	db.Order("ID", true).Find(&JobMasters)
+	JobSkillMasters := []model.JobSkillMaster{}
+	db.Order("ID", true).Find(&JobSkillMasters)
 
-	SkillSet.SkillMaster = skillMasters
+	SkillSet.SkillMaster = SkillMasters
+	SkillSet.JobMaster = JobMasters
+	SkillSet.JobSkillMaster = JobSkillMasters
 
 	log.Println(SkillSet)
 	encoder := json.NewEncoder(w)
