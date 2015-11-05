@@ -17,8 +17,10 @@ type CharaMakeAPI struct {
 
 
 type SkillSetAPI struct {
-	SkillMaster map[string]model.SkillMaster
-	PlayerStatus model.PlayerStatus
+	SkillMaster    []model.SkillMaster
+	JobMaster      []model.JobMaster
+	JobSkillMaster []model.JobSkillMaster
+	PlayerStatus   model.PlayerStatus
 }
 
 func AppContext(db gorm.DB) Controller {

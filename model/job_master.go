@@ -15,9 +15,9 @@ type JobSkillMaster struct {
 
 
 var JobList = []JobMaster{
-	JobMaster{JobName:"私立探偵"},
-	JobMaster{JobName:"医師"},
-	JobMaster{JobName:"エンジニア"},
+	JobMaster{ID:1,JobName:"私立探偵"},
+//	JobMaster{ID:2,JobName:"医師"},
+//	JobMaster{ID:3,JobName:"エンジニア"},
 }
 
 var JobSkillList = []JobSkillMaster{
