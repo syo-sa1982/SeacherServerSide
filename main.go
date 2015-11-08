@@ -32,11 +32,13 @@ func main() {
 	user.Post("/auth", cntr.UserAuth)
 
 	player.Use(middleware.SubRouter)
+	player.Post("/joblist", cntr.JobList)
 	player.Post("/base_make", cntr.PlayerBaseMake)
 	player.Post("/generate", cntr.PlayerGenerate)
 	player.Post("/list", cntr.PlayerList)
 	player.Get("/skill_setting", cntr.SkillSetting)
 	player.Post("/skill_setting", cntr.SkillSetting)
+	player.Post("/skill_submit", cntr.SkillSubmit)
 	goji.Serve()
 }
 
