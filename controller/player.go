@@ -11,13 +11,13 @@ import (
 )
 
 func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
-	db := cntr.db
-	jobSelect := cntr.jobSelect
+	var db = cntr.db
+	var jobSelect = cntr.jobSelect
 	Jobs := []model.JobMaster{}
 	JobSkills := []model.JobSkillMaster{}
 
-	db.Find(&Jobs)
-	db.Find(&JobSkills)
+	db.Order("ID", true).Find(&Jobs)
+	db.Order("ID", true).Find(&JobSkills)
 
 	jobSelect.jobList = Jobs
 	jobSelect.jobSkillList = JobSkills

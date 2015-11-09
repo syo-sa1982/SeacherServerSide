@@ -24,7 +24,7 @@ type SkillSetAPI struct {
 }
 
 type JobSelectAPI struct {
-	jobList []model.JobMaster
+	jobList      []model.JobMaster
 	jobSkillList []model.JobSkillMaster
 }
 
