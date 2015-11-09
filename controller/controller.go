@@ -24,8 +24,8 @@ type SkillSetAPI struct {
 }
 
 type JobSelectAPI struct {
-	jobList      []model.JobMaster
-	jobSkillList []model.JobSkillMaster
+	JobMaster      []model.JobMaster
+	JobSkillMaster []model.JobSkillMaster
 }
 
 func AppContext(db gorm.DB) Controller {
