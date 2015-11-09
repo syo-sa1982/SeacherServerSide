@@ -27,7 +27,7 @@ var SkillMasterList = []SkillMaster{
 	SkillMaster{ID:4, CategoryID:1,SkillName:"応急手当",Value:20},
 	SkillMaster{ID:5, CategoryID:2,SkillName:"オカルト",Value:5},
 	SkillMaster{ID:6, CategoryID:2,SkillName:"回避",Value:0},
-	SkillMaster{ID:7, CategoryID:3,SkillName:"科学",Value:1},
+	SkillMaster{ID:7, CategoryID:3,SkillName:"化学",Value:1},
 	SkillMaster{ID:8, CategoryID:3,SkillName:"鍵開け",Value:1},
 	SkillMaster{ID:9, CategoryID:3,SkillName:"隠す",Value:15},
 	SkillMaster{ID:10,CategoryID:3,SkillName:"隠れる",Value:10},
