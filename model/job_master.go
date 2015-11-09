@@ -16,8 +16,8 @@ type JobSkillMaster struct {
 
 var JobList = []JobMaster{
 	JobMaster{ID:1,JobName:"私立探偵"},
-//	JobMaster{ID:2,JobName:"医師"},
-//	JobMaster{ID:3,JobName:"エンジニア"},
+	JobMaster{ID:2,JobName:"医師"},
+	JobMaster{ID:3,JobName:"エンジニア"},
 }
 
 var JobSkillList = []JobSkillMaster{
@@ -30,4 +30,24 @@ var JobSkillList = []JobSkillMaster{
 	JobSkillMaster{JobID:1,SkillID:19,SkillType:1},
 	JobSkillMaster{JobID:1,SkillID:41,SkillType:1},
 	JobSkillMaster{JobID:1,SkillID:59,SkillType:1},
+
+	JobSkillMaster{JobID:2,SkillID:1, SkillType:0},
+	JobSkillMaster{JobID:2,SkillID:8, SkillType:0},
+	JobSkillMaster{JobID:2,SkillID:23,SkillType:0},
+	JobSkillMaster{JobID:2,SkillID:33,SkillType:0},
+	JobSkillMaster{JobID:2,SkillID:39,SkillType:0},
+	JobSkillMaster{JobID:2,SkillID:12,SkillType:1},
+	JobSkillMaster{JobID:2,SkillID:19,SkillType:1},
+	JobSkillMaster{JobID:2,SkillID:41,SkillType:1},
+	JobSkillMaster{JobID:2,SkillID:59,SkillType:1},
+
+	JobSkillMaster{JobID:3,SkillID:1, SkillType:0},
+	JobSkillMaster{JobID:3,SkillID:8, SkillType:0},
+	JobSkillMaster{JobID:3,SkillID:23,SkillType:0},
+	JobSkillMaster{JobID:3,SkillID:33,SkillType:0},
+	JobSkillMaster{JobID:3,SkillID:39,SkillType:0},
+	JobSkillMaster{JobID:3,SkillID:12,SkillType:1},
+	JobSkillMaster{JobID:3,SkillID:19,SkillType:1},
+	JobSkillMaster{JobID:3,SkillID:41,SkillType:1},
+	JobSkillMaster{JobID:3,SkillID:59,SkillType:1},
 }

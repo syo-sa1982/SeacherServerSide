@@ -11,6 +11,20 @@ import (
 )
 
 func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
+	db := cntr.db
+	jobSelect := cntr.jobSelect
+	Jobs := []model.JobMaster{}
+	JobSkills := []model.JobSkillMaster{}
+
+	db.Find(&Jobs)
+	db.Find(&JobSkills)
+
+	jobSelect.jobList = Jobs
+	jobSelect.jobSkillList = JobSkills
+
+	log.Println(jobSelect)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(jobSelect)
 
 }
 
@@ -78,7 +92,7 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 
 func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
-	var SkillSet = cntr.SkillSetAPI
+	var SkillSet = cntr.skillSet
 
 	User := model.User{}
 	Player := model.PlayerStatus{}
