@@ -7,7 +7,8 @@ import (
 type Controller struct {
 	db gorm.DB
 	charaStatus CharaMakeAPI
-	SkillSetAPI
+	skillSet SkillSetAPI
+	jobSelect JobSelectAPI
 }
 
 type CharaMakeAPI struct {
@@ -15,12 +16,16 @@ type CharaMakeAPI struct {
 	DiceHistory map[string][]int
 }
 
-
 type SkillSetAPI struct {
 	SkillMaster    []model.SkillMaster
 	JobMaster      []model.JobMaster
 	JobSkillMaster []model.JobSkillMaster
 	PlayerStatus   model.PlayerStatus
+}
+
+type JobSelectAPI struct {
+	JobMaster      []model.JobMaster
+	JobSkillMaster []model.JobSkillMaster
 }
 
 func AppContext(db gorm.DB) Controller {

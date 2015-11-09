@@ -10,6 +10,25 @@ import (
 	"github.com/syo-sa1982/SeacherServerSide/model"
 )
 
+func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
+	var db = cntr.db
+	var jobSelect = cntr.jobSelect
+
+	Jobs := []model.JobMaster{}
+	db.Order("ID", true).Find(&Jobs)
+	JobSkills := []model.JobSkillMaster{}
+	db.Order("ID", true).Find(&JobSkills)
+
+
+	jobSelect.JobMaster = Jobs
+	jobSelect.JobSkillMaster = JobSkills
+
+	log.Println(jobSelect)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(jobSelect)
+
+}
+
 func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
 
 	charaMakeAPI := cntr.charaStatus
@@ -74,7 +93,7 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 
 func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
-	var SkillSet = cntr.SkillSetAPI
+	var SkillSet = cntr.skillSet
 
 	User := model.User{}
 	Player := model.PlayerStatus{}
@@ -101,6 +120,10 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 	log.Println(SkillSet)
 	encoder := json.NewEncoder(w)
 	encoder.Encode(SkillSet)
+}
+
+func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Request) {
+
 }
 
 func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
