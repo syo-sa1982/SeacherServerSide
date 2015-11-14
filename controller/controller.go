@@ -1,19 +1,20 @@
 package controller
+
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/syo-sa1982/SeacherServerSide/model"
 )
 
 type Controller struct {
-	db gorm.DB
+	db          gorm.DB
 	charaStatus CharaMakeAPI
-	skillSet SkillSetAPI
-	jobSelect JobSelectAPI
+	skillSet    SkillSetAPI
+	jobSelect   JobSelectAPI
 }
 
 type CharaMakeAPI struct {
 	BaseStatus, CharaStatus map[string]int
-	DiceHistory map[string][]int
+	DiceHistory             map[string][]int
 }
 
 type SkillSetAPI struct {
@@ -31,4 +32,3 @@ type JobSelectAPI struct {
 func AppContext(db gorm.DB) Controller {
 	return Controller{db: db}
 }
-

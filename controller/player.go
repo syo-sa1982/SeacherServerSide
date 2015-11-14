@@ -1,13 +1,14 @@
 package controller
+
 import (
-	"github.com/zenazn/goji/web"
-	"net/http"
-	"github.com/syo-sa1982/SeacherServerSide/util"
-	"log"
 	"encoding/json"
-	"strings"
-	"strconv"
 	"github.com/syo-sa1982/SeacherServerSide/model"
+	"github.com/syo-sa1982/SeacherServerSide/util"
+	"github.com/zenazn/goji/web"
+	"log"
+	"net/http"
+	"strconv"
+	"strings"
 )
 
 func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -18,7 +19,6 @@ func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) 
 	db.Order("ID", true).Find(&Jobs)
 	JobSkills := []model.JobSkillMaster{}
 	db.Order("ID", true).Find(&JobSkills)
-
 
 	jobSelect.JobMaster = Jobs
 	jobSelect.JobSkillMaster = JobSkills
@@ -39,7 +39,7 @@ func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Re
 
 	for key, value := range r.Form {
 		log.Println("key:", key, " value:", value)
-		totalScores[key] , history[key] = generateBaseStatus(r, key)
+		totalScores[key], history[key] = generateBaseStatus(r, key)
 	}
 	var charaStatus = generatePlayerStatusMap(totalScores)
 
@@ -143,7 +143,6 @@ func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Reques
 	encoder.Encode(Player)
 }
 
-
 func MapToStruct(m map[string]int, val interface{}) error {
 	tmp, err := json.Marshal(m)
 	if err != nil {
@@ -165,20 +164,25 @@ func generateBaseStatus(r *http.Request, key string) (int, []int) {
 
 func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
 	return map[string]int{
-		"HP" : calcDivision(2, baseStatus["Constitution"], baseStatus["Size"]),
-		"MP" : baseStatus["Power"],
-		"Sanity" : baseStatus["Power"] * 5,
-		"Luck" : baseStatus["Power"] * 5,
-		"Idea" : baseStatus["Intelligence"] * 5,
-		"Knowledge" : baseStatus["Education"] * 5,
-		"JobSkillPoint" : baseStatus["Education"] * 20,
-		"HobbySkillPoint" : baseStatus["Intelligence"] * 10,
-		"DamageBonus" : baseStatus["Strength"] + baseStatus["Size"]}
+		"HP":              calcDivision(2, baseStatus["Constitution"], baseStatus["Size"]),
+		"MP":              baseStatus["Power"],
+		"Sanity":          baseStatus["Power"] * 5,
+		"Luck":            baseStatus["Power"] * 5,
+		"Idea":            baseStatus["Intelligence"] * 5,
+		"Knowledge":       baseStatus["Education"] * 5,
+		"JobSkillPoint":   baseStatus["Education"] * 20,
+		"HobbySkillPoint": baseStatus["Intelligence"] * 10,
+		"DamageBonus":     baseStatus["Strength"] + baseStatus["Size"]}
 }
 
 func calcDivision(multiple int, params ...int) int {
-	var sum int = 0;
-	for _ , param := range params { sum += param }
-	if sum > 0 { return sum / multiple
-	} else { return sum }
+	var sum int = 0
+	for _, param := range params {
+		sum += param
+	}
+	if sum > 0 {
+		return sum / multiple
+	} else {
+		return sum
+	}
 }

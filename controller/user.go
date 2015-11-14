@@ -1,32 +1,34 @@
 package controller
+
 import (
-	"net/http"
-	"github.com/zenazn/goji/web"
-	"github.com/syo-sa1982/SeacherServerSide/model"
-	"log"
-	"html/template"
-	"strconv"
 	"encoding/json"
+	"github.com/syo-sa1982/SeacherServerSide/model"
+	"github.com/zenazn/goji/web"
+	"html/template"
+	"log"
+	"net/http"
+	"strconv"
 )
 
 var tpl *template.Template
+
 const Password = "user:user"
 
-type FormData struct{
+type FormData struct {
 	User model.User
 	Mess string
 }
 
 func (cntr Controller) UserIndex(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
-	Users := [] model.User{}
+	Users := []model.User{}
 	db.Find(&Users)
 	log.Print("index")
 	tpl = template.Must(template.ParseFiles("view/user/index.html"))
 	tpl.Execute(w, Users)
 }
 
-func (cntr Controller) UserAdd(c web.C, w http.ResponseWriter, r *http.Request){
+func (cntr Controller) UserAdd(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	r.ParseForm()
 	log.Print("add")
@@ -41,7 +43,7 @@ func (cntr Controller) UserAdd(c web.C, w http.ResponseWriter, r *http.Request){
 	encoder.Encode(User)
 }
 
-func (cntr Controller) UserAuth(c web.C, w http.ResponseWriter, r *http.Request){
+func (cntr Controller) UserAuth(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	log.Print("Auth")
 	User := model.User{}
@@ -52,7 +54,7 @@ func (cntr Controller) UserAuth(c web.C, w http.ResponseWriter, r *http.Request)
 	encoder.Encode(User)
 }
 
-func (cntr Controller) UserCharacterCheck(c web.C, w http.ResponseWriter, r *http.Request){
+func (cntr Controller) UserCharacterCheck(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	User := model.User{}
 	Player := model.PlayerStatus{}
@@ -64,4 +66,3 @@ func (cntr Controller) UserCharacterCheck(c web.C, w http.ResponseWriter, r *htt
 	encoder := json.NewEncoder(w)
 	encoder.Encode(count)
 }
-
