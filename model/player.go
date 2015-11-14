@@ -29,7 +29,7 @@ type PlayerStatus struct {
 
 	UserID   uint `sql:"not NULL;"`
 	PlayerID uint `sql:"not NULL;unique_index"`
-	JobID    uint
+	JobID    int
 
 	MaxHP     int
 	MaxMP     int
