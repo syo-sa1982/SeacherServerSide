@@ -82,7 +82,6 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 	MapToStruct(charaStatus, &playerStatus)
 	playerStatus.UserID = User.ID
 	playerStatus.PlayerID = playerBase.ID
-	log.Println(r.FormValue("JobID"))
 	playerStatus.JobID, _ = strconv.Atoi(r.FormValue("JobID"))
 	playerStatus.MaxHP = charaStatus["HP"]
 	playerStatus.MaxMP = charaStatus["MP"]

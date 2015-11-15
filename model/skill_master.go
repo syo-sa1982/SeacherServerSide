@@ -1,7 +1,7 @@
 package model
 
 type SkillMaster struct {
-	ID         uint
+	ID         int
 	CategoryID int
 	SkillName  string
 	Value      int

@@ -27,33 +27,35 @@ func main() {
 		panic(err)
 	}
 
-	log.Println("User")
-	if db.HasTable(&model.User{}) {
-		db.DropTable(&model.User{})
-	}
-	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.User{})
-	log.Println("User Done")
+	if os.Args[0] == "setup" {
+		log.Println("User")
+		if db.HasTable(&model.User{}) {
+			db.DropTable(&model.User{})
+		}
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.User{})
+		log.Println("User Done")
 
-	log.Println("PlayerBase")
-	if db.HasTable(&model.PlayerBase{}) {
-		db.DropTable(&model.PlayerBase{})
-	}
-	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerBase{})
-	log.Println("PlayerBase Done")
+		log.Println("PlayerBase")
+		if db.HasTable(&model.PlayerBase{}) {
+			db.DropTable(&model.PlayerBase{})
+		}
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerBase{})
+		log.Println("PlayerBase Done")
 
-	log.Println("PlayerStatus")
-	if db.HasTable(&model.PlayerStatus{}) {
-		db.DropTable(&model.PlayerStatus{})
-	}
-	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerStatus{})
-	log.Println("PlayerStatus Done")
+		log.Println("PlayerStatus")
+		if db.HasTable(&model.PlayerStatus{}) {
+			db.DropTable(&model.PlayerStatus{})
+		}
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerStatus{})
+		log.Println("PlayerStatus Done")
 
-	log.Println("PlayerSkill")
-	if db.HasTable(&model.PlayerSkill{}) {
-		db.DropTable(&model.PlayerSkill{})
+		log.Println("PlayerSkill")
+		if db.HasTable(&model.PlayerSkill{}) {
+			db.DropTable(&model.PlayerSkill{})
+		}
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerSkill{})
+		log.Println("PlayerSkill Done")
 	}
-	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&model.PlayerSkill{})
-	log.Println("PlayerSkill Done")
 
 	log.Println("SkillCategory")
 	if db.HasTable(&model.SkillCategory{}) {
