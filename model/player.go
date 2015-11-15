@@ -1,13 +1,14 @@
 package model
+
 import (
 	"time"
 )
 
 type PlayerBase struct {
-	ID   uint
+	ID int
 
-	UserID uint `sql:"not NULL;"`
-	Name string `sql:"size:255"`
+	UserID int   `sql:"not NULL;"`
+	Name   string `sql:"size:255"`
 
 	Strength     int
 	Constitution int
@@ -24,20 +25,20 @@ type PlayerBase struct {
 }
 
 type PlayerStatus struct {
-	ID   uint
+	ID int
 
-	UserID   uint `sql:"not NULL;"`
-	PlayerID uint `sql:"not NULL;unique_index"`
-	JobID    uint
+	UserID   int `sql:"not NULL;"`
+	PlayerID int `sql:"not NULL;unique_index"`
+	JobID    int
 
-	MaxHP           int
-	MaxMP           int
-	HP              int
-	MP              int
-	Sanity          int
-	Luck            int
-	Idea            int
-	Knowledge       int
+	MaxHP     int
+	MaxMP     int
+	HP        int
+	MP        int
+	Sanity    int
+	Luck      int
+	Idea      int
+	Knowledge int
 
 	JobSkillPoint   int
 	HobbySkillPoint int
@@ -49,9 +50,9 @@ type PlayerStatus struct {
 }
 
 type PlayerSkill struct {
-	ID       uint
+	ID int
 
-	PlayerID uint `sql:"not NULL;index"`
-	SkillID  uint `sql:"not NULL;index"`
+	PlayerID int `sql:"not NULL;index"`
+	SkillID  int `sql:"not NULL;index"`
 	Value    int
 }

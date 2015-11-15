@@ -5,11 +5,11 @@ import (
 )
 
 type User struct {
-	ID   uint
+	ID int
 
-	UUID string `sql:"not NULL;size:36;unique"`
-	Name string `sql:"size:255;"`
-	RollCount int `sql:"DEFAULT:0"`
+	UUID      string `sql:"not NULL;size:36;unique"`
+	Name      string `sql:"size:255;"`
+	RollCount int    `sql:"DEFAULT:0"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time

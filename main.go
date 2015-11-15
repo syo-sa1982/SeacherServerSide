@@ -1,20 +1,20 @@
 package main
 
 import (
-	"log"
-	"github.com/zenazn/goji"
-	"github.com/jinzhu/gorm"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+	"github.com/syo-sa1982/SeacherServerSide/controller"
+	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/web"
 	"github.com/zenazn/goji/web/middleware"
-	"github.com/syo-sa1982/SeacherServerSide/controller"
-	"os"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"log"
+	"os"
 )
 
 var (
-	db gorm.DB
+	db   gorm.DB
 	cntr controller.Controller
 )
 
