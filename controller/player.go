@@ -97,26 +97,31 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 	var SkillSet = cntr.skillSet
 
 	User := model.User{}
+	PlayerBase := model.PlayerBase{}
 	Player := model.PlayerStatus{}
+	Job := model.JobMaster{}
+	JobSkill := []model.JobSkillMaster{}
+
 	r.ParseForm()
 	log.Println(r.FormValue("UUID"))
 
 	db.Model(User).Where("uuid = ?", r.FormValue("UUID")).Find(&User)
-	log.Println(User.ID)
+//	log.Println(User.ID)
+	db.Model(PlayerBase).Where("user_id = ?", User.ID).Find(&PlayerBase)
 	db.Model(Player).Where("user_id = ?", User.ID).Find(&Player)
-
-	SkillSet.PlayerStatus = Player
+	log.Println(Player.JobID)
+	db.Model(Job).Where("id = ?", Player.JobID).Find(&Job)
+	db.Model(JobSkill).Where("job_id = ?", Player.JobID).Order("ID", true).Find(&JobSkill)
+	log.Println(Job)
 
 	SkillMasters := []model.SkillMaster{}
 	db.Order("ID", true).Find(&SkillMasters)
-	JobMasters := []model.JobMaster{}
-	db.Order("ID", true).Find(&JobMasters)
-	JobSkillMasters := []model.JobSkillMaster{}
-	db.Order("ID", true).Find(&JobSkillMasters)
 
+	SkillSet.PlayerBase = PlayerBase
+	SkillSet.PlayerStatus = Player
 	SkillSet.SkillMaster = SkillMasters
-	SkillSet.JobMaster = JobMasters
-	SkillSet.JobSkillMaster = JobSkillMasters
+	SkillSet.JobMaster = Job
+	SkillSet.JobSkillMaster = JobSkill
 
 	log.Println(SkillSet)
 	encoder := json.NewEncoder(w)

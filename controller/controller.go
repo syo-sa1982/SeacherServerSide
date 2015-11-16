@@ -19,8 +19,9 @@ type CharaMakeAPI struct {
 
 type SkillSetAPI struct {
 	SkillMaster    []model.SkillMaster
-	JobMaster      []model.JobMaster
+	JobMaster      model.JobMaster
 	JobSkillMaster []model.JobSkillMaster
+	PlayerBase     model.PlayerBase
 	PlayerStatus   model.PlayerStatus
 }
 
