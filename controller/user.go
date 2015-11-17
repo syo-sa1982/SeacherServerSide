@@ -31,11 +31,11 @@ func (cntr Controller) UserIndex(c web.C, w http.ResponseWriter, r *http.Request
 func (cntr Controller) UserAdd(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	r.ParseForm()
+
 	log.Print("add")
 
-	log.Print(w.Header())
-	log.Print(r.Form)
 	User := model.User{UUID: r.FormValue("uuid"), Name: r.FormValue("name")}
+
 	User.RollCount, _ = strconv.Atoi(r.FormValue("roll_count"))
 	db.Create(&User)
 
