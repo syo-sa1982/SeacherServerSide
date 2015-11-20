@@ -12,12 +12,17 @@ import (
 )
 
 func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
-	var db = cntr.db
-	var jobSelect = cntr.jobSelect
+	var (
+		db = cntr.db
+		jobSelect = cntr.jobSelect
+	)
 
-	Jobs := []model.JobMaster{}
+	var (
+		Jobs = []model.JobMaster{}
+		JobSkills = []model.JobSkillMaster{}
+	)
+
 	db.Order("ID", true).Find(&Jobs)
-	JobSkills := []model.JobSkillMaster{}
 	db.Order("ID", true).Find(&JobSkills)
 
 	jobSelect.JobMaster = Jobs
@@ -31,12 +36,14 @@ func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) 
 
 func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
 
-	charaMakeAPI := cntr.charaStatus
+	var charaMakeAPI = cntr.charaStatus
+
+	var (
+		totalScores = make(map[string]int)
+		history = make(map[string][]int)
+	)
+
 	r.ParseForm()
-
-	var totalScores = make(map[string]int)
-	var history = make(map[string][]int)
-
 	for key, value := range r.Form {
 		log.Println("key:", key, " value:", value)
 		totalScores[key], history[key] = generateBaseStatus(r, key)
@@ -54,12 +61,14 @@ func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Re
 
 func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
+
 	User := model.User{}
 	r.ParseForm()
 	User.UUID = r.FormValue("UUID")
 	db.Find(&User)
 
 	var BaseStatus = make(map[string]int)
+
 	log.Println(r.Form)
 	for key, value := range r.Form {
 		log.Println("key:", key, " value:", value)
@@ -67,6 +76,7 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 			BaseStatus[key], _ = strconv.Atoi(value[0])
 		}
 	}
+
 	var charaStatus = generatePlayerStatusMap(BaseStatus)
 	log.Println(charaStatus)
 
@@ -93,20 +103,24 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 }
 
 func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
-	var db = cntr.db
-	var SkillSet = cntr.skillSet
 
-	User := model.User{}
-	PlayerBase := model.PlayerBase{}
-	Player := model.PlayerStatus{}
-	Job := model.JobMaster{}
-	JobSkill := []model.JobSkillMaster{}
+	var (
+		db = cntr.db
+		SkillSet = cntr.skillSet
+	)
+
+	var (
+		User = model.User{}
+		PlayerBase = model.PlayerBase{}
+		Player = model.PlayerStatus{}
+		Job = model.JobMaster{}
+		JobSkill = []model.JobSkillMaster{}
+	)
 
 	r.ParseForm()
 	log.Println(r.FormValue("UUID"))
 
 	db.Model(User).Where("uuid = ?", r.FormValue("UUID")).Find(&User)
-//	log.Println(User.ID)
 	db.Model(PlayerBase).Where("user_id = ?", User.ID).Find(&PlayerBase)
 	db.Model(Player).Where("user_id = ?", User.ID).Find(&Player)
 	log.Println(Player.JobID)
