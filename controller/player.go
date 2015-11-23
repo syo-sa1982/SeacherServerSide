@@ -143,6 +143,10 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 }
 
 func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Request) {
+//	var db = cntr.db
+
+	r.ParseForm()
+	log.Println(r.FormValue("json_api"))
 
 }
 
