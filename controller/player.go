@@ -131,13 +131,16 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 	SkillMasters := []model.SkillMaster{}
 	db.Order("ID", true).Find(&SkillMasters)
 
+	SkillMasters[5].Value = PlayerBase.Dextality * 2
+	SkillMasters[46].Value = PlayerBase.Education * 5
+
 	SkillSet.PlayerBase = PlayerBase
 	SkillSet.PlayerStatus = Player
 	SkillSet.SkillMaster = SkillMasters
 	SkillSet.JobMaster = Job
 	SkillSet.JobSkillMaster = JobSkill
 
-	log.Println(SkillSet)
+	log.Println(SkillMasters)
 	encoder := json.NewEncoder(w)
 	encoder.Encode(SkillSet)
 }
@@ -147,7 +150,7 @@ func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Reque
 
 	r.ParseForm()
 	log.Println(r.FormValue("json_api"))
-
+//	json := r.FormValue("json_api")
 }
 
 func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
