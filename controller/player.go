@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+const AvoidSkillKey = 5
+const LanguageSkillKey = 46
 
 func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
 	var (
@@ -132,8 +134,8 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 	SkillMasters := []model.SkillMaster{}
 	db.Order("ID", true).Find(&SkillMasters)
 
-	SkillMasters[5].Value = PlayerBase.Dextality * 2
-	SkillMasters[46].Value = PlayerBase.Education * 5
+	SkillMasters[AvoidSkillKey].Value = PlayerBase.Dextality * 2
+	SkillMasters[LanguageSkillKey].Value = PlayerBase.Education * 5
 
 	SkillSet.PlayerBase = PlayerBase
 	SkillSet.PlayerStatus = Player
