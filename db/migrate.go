@@ -27,7 +27,7 @@ func main() {
 		panic(err)
 	}
 
-	if os.Args[0] == "setup" {
+	if os.Args[1] == "setup" {
 		log.Println("User")
 		if db.HasTable(&model.User{}) {
 			db.DropTable(&model.User{})

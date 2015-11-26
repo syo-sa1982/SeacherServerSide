@@ -11,6 +11,9 @@ import (
 	"strings"
 )
 
+const AvoidSkillKey = 5
+const LanguageSkillKey = 46
+
 func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
 	var (
 		db = cntr.db
@@ -131,13 +134,16 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 	SkillMasters := []model.SkillMaster{}
 	db.Order("ID", true).Find(&SkillMasters)
 
+	SkillMasters[AvoidSkillKey].Value = PlayerBase.Dextality * 2
+	SkillMasters[LanguageSkillKey].Value = PlayerBase.Education * 5
+
 	SkillSet.PlayerBase = PlayerBase
 	SkillSet.PlayerStatus = Player
 	SkillSet.SkillMaster = SkillMasters
 	SkillSet.JobMaster = Job
 	SkillSet.JobSkillMaster = JobSkill
 
-	log.Println(SkillSet)
+	log.Println(SkillMasters)
 	encoder := json.NewEncoder(w)
 	encoder.Encode(SkillSet)
 }
@@ -147,6 +153,16 @@ func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Reque
 
 	r.ParseForm()
 	log.Println(r.FormValue("json_api"))
+	json_str := r.FormValue("json_api")
+	var playerSkill []PlayerSkillData
+	json.Unmarshal([]byte(json_str), &playerSkill)
+
+	log.Println(playerSkill)
+
+//	var playerSkill model.PlayerSkill
+//	dec.Decode(&playerSkill)
+
+//	log.Println(playerSkill)
 
 }
 
