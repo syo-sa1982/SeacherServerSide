@@ -55,4 +55,5 @@ type PlayerSkill struct {
 	PlayerID int `sql:"not NULL;index"`
 	SkillID  int `sql:"not NULL;index"`
 	Value    int
+	SkillName string
 }

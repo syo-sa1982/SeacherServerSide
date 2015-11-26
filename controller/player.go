@@ -11,6 +11,7 @@ import (
 	"strings"
 )
 
+
 func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
 	var (
 		db = cntr.db
@@ -150,7 +151,17 @@ func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Reque
 
 	r.ParseForm()
 	log.Println(r.FormValue("json_api"))
-//	json := r.FormValue("json_api")
+	json_str := r.FormValue("json_api")
+	var playerSkill []PlayerSkillData
+	json.Unmarshal([]byte(json_str), &playerSkill)
+
+	log.Println(playerSkill)
+
+//	var playerSkill model.PlayerSkill
+//	dec.Decode(&playerSkill)
+
+//	log.Println(playerSkill)
+
 }
 
 func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {

@@ -30,6 +30,13 @@ type JobSelectAPI struct {
 	JobSkillMaster []model.JobSkillMaster
 }
 
+type PlayerSkillData struct {
+	ID         int
+	CategoryID int
+	Value      int
+	SkillName  string
+}
+
 func AppContext(db gorm.DB) Controller {
 	return Controller{db: db}
 }
