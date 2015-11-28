@@ -149,15 +149,26 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 }
 
 func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Request) {
-//	var db = cntr.db
+	var db = cntr.db
 
 	r.ParseForm()
 	log.Println(r.FormValue("json_api"))
 	json_str := r.FormValue("json_api")
-	var playerSkill []PlayerSkillData
-	json.Unmarshal([]byte(json_str), &playerSkill)
+	player_id_str := r.FormValue("player_id")
+	log.Println(player_id_str)
+	var SkillApi []model.SkillMaster
 
-	log.Println(playerSkill)
+	json.Unmarshal([]byte(json_str), &SkillApi)
+
+	log.Println(SkillApi)
+
+	for key := range SkillApi {
+		var playerSkill model.PlayerSkill
+		playerSkill.PlayerID,_ = strconv.Atoi(player_id_str)
+		playerSkill.SkillID = SkillApi[key].ID
+		playerSkill.Value = SkillApi[key].Value
+		db.Create(&playerSkill)
+	}
 
 //	var playerSkill model.PlayerSkill
 //	dec.Decode(&playerSkill)
