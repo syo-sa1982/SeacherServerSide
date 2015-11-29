@@ -34,6 +34,7 @@ func main() {
 	player.Use(middleware.SubRouter)
 	player.Get("/joblist", cntr.JobList)
 	player.Post("/joblist", cntr.JobList)
+	player.Post("/list", cntr.PlayerList)
 	player.Post("/base_make", cntr.PlayerBaseMake)
 	player.Post("/generate", cntr.PlayerGenerate)
 	player.Post("/list", cntr.PlayerList)

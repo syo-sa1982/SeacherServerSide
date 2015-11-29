@@ -179,19 +179,22 @@ func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Reque
 
 func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
-	User := model.User{}
-	Player := model.PlayerStatus{}
+	user := model.User{}
+	job := model.JobMaster{}
+	playerBase := model.PlayerBase{}
+	playerStatus := model.PlayerStatus{}
 	r.ParseForm()
 	log.Println(r.FormValue("UUID"))
 
-	db.Model(User).Where("uuid = ?", r.FormValue("UUID")).Find(&User)
-	log.Println(User.ID)
-	db.Model(Player).Where("user_id = ?", User.ID).Find(&Player)
+	db.Model(user).Where("uuid = ?", r.FormValue("UUID")).Find(&user)
+	db.Model(playerStatus).Where("user_id = ?", user.ID).Find(&playerStatus)
+	db.Model(playerBase).Where("user_id = ?", user.ID).Find(&playerBase)
+	db.Model(job).Where("job_id = ?", playerStatus.JobID).Find(&job)
 
-	log.Println(Player)
+	log.Println(playerStatus)
 
 	encoder := json.NewEncoder(w)
-	encoder.Encode(Player)
+	encoder.Encode(playerStatus)
 }
 
 func MapToStruct(m map[string]int, val interface{}) error {
