@@ -14,10 +14,10 @@ import (
 const AvoidSkillKey = 5
 const LanguageSkillKey = 46
 
-func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) {
 	var (
 		db = cntr.db
-		jobSelect = cntr.jobSelect
+		jobSelect JobSelectAPI
 	)
 
 	var (
@@ -37,9 +37,9 @@ func (cntr Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request) 
 
 }
 
-func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
 
-	var charaMakeAPI = cntr.charaStatus
+	var charaMakeAPI CharaMakeAPI
 
 	var (
 		totalScores = make(map[string]int)
@@ -62,7 +62,7 @@ func (cntr Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Re
 	encoder.Encode(charaMakeAPI)
 }
 
-func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 
 	User := model.User{}
@@ -105,11 +105,11 @@ func (cntr Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Re
 
 }
 
-func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
 
 	var (
 		db = cntr.db
-		SkillSet = cntr.skillSet
+		SkillSet SkillSetAPI
 	)
 
 	var (
@@ -148,7 +148,7 @@ func (cntr Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Requ
 	encoder.Encode(SkillSet)
 }
 
-func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 
 	r.ParseForm()
@@ -169,29 +169,26 @@ func (cntr Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Reque
 		playerSkill.Value = SkillApi[key].Value
 		db.Create(&playerSkill)
 	}
-
-//	var playerSkill model.PlayerSkill
-//	dec.Decode(&playerSkill)
-
-//	log.Println(playerSkill)
-
 }
 
-func (cntr Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
-	User := model.User{}
-	Player := model.PlayerStatus{}
+	user := model.User{}
+	job := model.JobMaster{}
+	playerBase := model.PlayerBase{}
+	playerStatus := model.PlayerStatus{}
 	r.ParseForm()
 	log.Println(r.FormValue("UUID"))
 
-	db.Model(User).Where("uuid = ?", r.FormValue("UUID")).Find(&User)
-	log.Println(User.ID)
-	db.Model(Player).Where("user_id = ?", User.ID).Find(&Player)
+	db.Model(user).Where("uuid = ?", r.FormValue("UUID")).Find(&user)
+	db.Model(playerStatus).Where("user_id = ?", user.ID).Find(&playerStatus)
+	db.Model(playerBase).Where("user_id = ?", user.ID).Find(&playerBase)
+	db.Model(job).Where("job_id = ?", playerStatus.JobID).Find(&job)
 
-	log.Println(Player)
+	log.Println(playerStatus)
 
 	encoder := json.NewEncoder(w)
-	encoder.Encode(Player)
+	encoder.Encode(playerStatus)
 }
 
 func MapToStruct(m map[string]int, val interface{}) error {

@@ -7,9 +7,6 @@ import (
 
 type Controller struct {
 	db          gorm.DB
-	charaStatus CharaMakeAPI
-	skillSet    SkillSetAPI
-	jobSelect   JobSelectAPI
 }
 
 type CharaMakeAPI struct {

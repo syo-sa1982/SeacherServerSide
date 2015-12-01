@@ -19,7 +19,7 @@ type FormData struct {
 	Mess string
 }
 
-func (cntr Controller) UserIndex(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) UserIndex(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	Users := []model.User{}
 	db.Find(&Users)
@@ -28,7 +28,7 @@ func (cntr Controller) UserIndex(c web.C, w http.ResponseWriter, r *http.Request
 	tpl.Execute(w, Users)
 }
 
-func (cntr Controller) UserAdd(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) UserAdd(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	r.ParseForm()
 
@@ -43,7 +43,7 @@ func (cntr Controller) UserAdd(c web.C, w http.ResponseWriter, r *http.Request) 
 	encoder.Encode(User)
 }
 
-func (cntr Controller) UserAuth(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) UserAuth(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	log.Print("Auth")
 	User := model.User{}
@@ -54,7 +54,7 @@ func (cntr Controller) UserAuth(c web.C, w http.ResponseWriter, r *http.Request)
 	encoder.Encode(User)
 }
 
-func (cntr Controller) UserCharacterCheck(c web.C, w http.ResponseWriter, r *http.Request) {
+func (cntr *Controller) UserCharacterCheck(c web.C, w http.ResponseWriter, r *http.Request) {
 	var db = cntr.db
 	User := model.User{}
 	Player := model.PlayerStatus{}
