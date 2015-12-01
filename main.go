@@ -22,6 +22,7 @@ func main() {
 	log.Print("main")
 	user := web.New()
 	player := web.New()
+	mainMenu := web.New()
 
 	goji.Handle("/user/*", user)
 	goji.Handle("/player/*", player)
@@ -41,6 +42,10 @@ func main() {
 	player.Get("/skill_setting", cntr.SkillSetting)
 	player.Post("/skill_setting", cntr.SkillSetting)
 	player.Post("/skill_submit", cntr.SkillSubmit)
+
+	mainMenu.Use(middleware.SubRouter)
+	user.Get("/index", cntr.MainIndex)
+
 	goji.Serve()
 }
 
