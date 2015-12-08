@@ -11,6 +11,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"net"
+	"net/http/fcgi"
 )
 
 var (
@@ -46,7 +48,9 @@ func main() {
 	mainMenu.Use(middleware.SubRouter)
 	user.Get("/index", cntr.MainIndex)
 
-	goji.Serve()
+	listener,_ := net.Listen("tcp", ":9000")
+	fcgi.Serve(listener, goji.DefaultMux)
+
 }
 
 func init() {
