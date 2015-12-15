@@ -40,9 +40,7 @@ func main() {
 	player.Post("/list", cntr.PlayerList)
 	player.Post("/base_make", cntr.PlayerBaseMake)
 	player.Post("/generate", cntr.PlayerGenerate)
-	player.Post("/list", cntr.PlayerList)
 	player.Get("/skill_setting", cntr.SkillSetting)
-	player.Post("/skill_setting", cntr.SkillSetting)
 	player.Post("/skill_submit", cntr.SkillSubmit)
 
 	mainMenu.Use(middleware.SubRouter)
