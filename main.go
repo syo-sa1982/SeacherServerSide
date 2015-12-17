@@ -20,6 +20,15 @@ var (
 	cntr controller.Controller
 )
 
+func rooter(m web.){
+
+	m.Get("/user/index", cntr.UserIndex)
+	m.Post("/user/add", cntr.UserAdd)
+	m.Post("/user/auth", cntr.UserAuth)
+
+	return m
+}
+
 func main() {
 	log.Print("main")
 	user := web.New()
