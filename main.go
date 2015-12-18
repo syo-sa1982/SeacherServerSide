@@ -6,13 +6,14 @@ import (
 	"github.com/syo-sa1982/SeacherServerSide/controller"
 	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/web"
-	"github.com/zenazn/goji/web/middleware"
+//	"github.com/zenazn/goji/web/middleware"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"net"
 	"net/http/fcgi"
+	"net/http"
 )
 
 var (
@@ -20,36 +21,30 @@ var (
 	cntr controller.Controller
 )
 
+func rooter(m *web.Mux) http.Handler {
+
+	m.Get("/user/index", cntr.UserIndex)
+	m.Post("/user/add", cntr.UserAdd)
+	m.Post("/user/auth", cntr.UserAuth)
+
+	m.Get("/player/joblist", cntr.JobList)
+	m.Post("/player/joblist", cntr.JobList)
+	m.Post("/player/list", cntr.PlayerList)
+	m.Post("/player/base_make", cntr.PlayerBaseMake)
+	m.Post("/player/generate", cntr.PlayerGenerate)
+	m.Get("/player/skill_setting", cntr.SkillSetting)
+	m.Post("/player/skill_submit", cntr.SkillSubmit)
+
+	m.Get("/main/index", cntr.MainIndex)
+
+	return m
+}
+
 func main() {
 	log.Print("main")
-	user := web.New()
-	player := web.New()
-	mainMenu := web.New()
-
-	goji.Handle("/user/*", user)
-	goji.Handle("/player/*", player)
-
-	user.Use(middleware.SubRouter)
-	user.Get("/index", cntr.UserIndex)
-	user.Post("/add", cntr.UserAdd)
-	user.Post("/auth", cntr.UserAuth)
-
-	player.Use(middleware.SubRouter)
-	player.Get("/joblist", cntr.JobList)
-	player.Post("/joblist", cntr.JobList)
-	player.Post("/list", cntr.PlayerList)
-	player.Post("/base_make", cntr.PlayerBaseMake)
-	player.Post("/generate", cntr.PlayerGenerate)
-	player.Post("/list", cntr.PlayerList)
-	player.Get("/skill_setting", cntr.SkillSetting)
-	player.Post("/skill_setting", cntr.SkillSetting)
-	player.Post("/skill_submit", cntr.SkillSubmit)
-
-	mainMenu.Use(middleware.SubRouter)
-	user.Get("/index", cntr.MainIndex)
 
 	listener,_ := net.Listen("tcp", ":9000")
-	fcgi.Serve(listener, goji.DefaultMux)
+	fcgi.Serve(listener, rooter(goji.DefaultMux))
 
 }
 

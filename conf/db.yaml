@@ -4,8 +4,8 @@ development:
   password: ""
   db: seacher
 production:
-  user: hoge
-  password: fuga
+  user: syousa1982
+  password: ""
   db: seacher
 test:
   user: root
