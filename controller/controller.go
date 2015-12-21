@@ -22,6 +22,14 @@ type SkillSetAPI struct {
 	PlayerStatus   model.PlayerStatus
 }
 
+
+type UserInfoAPI struct {
+	User           model.User
+	Job            model.JobMaster
+	PlayerBase     model.PlayerBase
+	PlayerStatus   model.PlayerStatus
+}
+
 type JobSelectAPI struct {
 	JobMaster      []model.JobMaster
 	JobSkillMaster []model.JobSkillMaster

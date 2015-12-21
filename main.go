@@ -29,13 +29,14 @@ func rooter(m *web.Mux) http.Handler {
 
 	m.Get("/player/joblist", cntr.JobList)
 	m.Post("/player/joblist", cntr.JobList)
-	m.Post("/player/list", cntr.PlayerList)
 	m.Post("/player/base_make", cntr.PlayerBaseMake)
 	m.Post("/player/generate", cntr.PlayerGenerate)
 	m.Get("/player/skill_setting", cntr.SkillSetting)
 	m.Post("/player/skill_submit", cntr.SkillSubmit)
 
-	m.Get("/main/index", cntr.MainIndex)
+	m.Post("/home/user/info", cntr.UserInfo)
+	m.Get("/home/scenario/list", cntr.ScenarioList)
+	m.Post("/home/player/list", cntr.PlayerList)
 
 	return m
 }

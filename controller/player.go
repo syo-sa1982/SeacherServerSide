@@ -171,26 +171,6 @@ func (cntr *Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Requ
 	}
 }
 
-func (cntr *Controller) PlayerList(c web.C, w http.ResponseWriter, r *http.Request) {
-	var db = cntr.db
-	user := model.User{}
-	job := model.JobMaster{}
-	playerBase := model.PlayerBase{}
-	playerStatus := model.PlayerStatus{}
-	r.ParseForm()
-	log.Println(r.FormValue("UUID"))
-
-	db.Model(user).Where("uuid = ?", r.FormValue("UUID")).Find(&user)
-	db.Model(playerStatus).Where("user_id = ?", user.ID).Find(&playerStatus)
-	db.Model(playerBase).Where("user_id = ?", user.ID).Find(&playerBase)
-	db.Model(job).Where("job_id = ?", playerStatus.JobID).Find(&job)
-
-	log.Println(playerStatus)
-
-	encoder := json.NewEncoder(w)
-	encoder.Encode(playerStatus)
-}
-
 func MapToStruct(m map[string]int, val interface{}) error {
 	tmp, err := json.Marshal(m)
 	if err != nil {
