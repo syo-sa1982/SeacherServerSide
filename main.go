@@ -14,14 +14,18 @@ import (
 	"net"
 	"net/http/fcgi"
 	"net/http"
+	"github.com/syo-sa1982/SeacherServerSide/admin"
 )
 
 var (
 	db   gorm.DB
 	cntr controller.Controller
+	ad admin.Controller
 )
 
 func rooter(m *web.Mux) http.Handler {
+
+	m.Get("/admin/", ad.AdminIndex)
 
 	m.Get("/user/index", cntr.UserIndex)
 	m.Post("/user/add", cntr.UserAdd)
@@ -66,4 +70,5 @@ func init() {
 		panic(err)
 	}
 	cntr = controller.AppContext(db)
+	ad = admin.AppContext(db)
 }
