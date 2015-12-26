@@ -25,7 +25,7 @@ var (
 
 func rooter(m *web.Mux) http.Handler {
 
-	m.Get("/admin/index", ad.AdminIndex)
+	m.Get("/admin/", ad.AdminIndex)
 
 	m.Get("/user/index", cntr.UserIndex)
 	m.Post("/user/add", cntr.UserAdd)
@@ -70,4 +70,5 @@ func init() {
 		panic(err)
 	}
 	cntr = controller.AppContext(db)
+	ad = admin.AppContext(db)
 }
