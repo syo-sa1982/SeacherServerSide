@@ -35,7 +35,7 @@ func rooter(m *web.Mux) http.Handler {
 	m.Post("/player/joblist", cntr.JobList)
 	m.Post("/player/base_make", cntr.PlayerBaseMake)
 	m.Post("/player/generate", cntr.PlayerGenerate)
-	m.Get("/player/skill_setting", cntr.SkillSetting)
+	m.Post("/player/skill_setting", cntr.SkillSetting)
 	m.Post("/player/skill_submit", cntr.SkillSubmit)
 
 	m.Post("/home/user/info", cntr.UserInfo)
