@@ -38,28 +38,30 @@ func (cntr *Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request)
 }
 
 func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
-
-	var charaMakeAPI CharaMakeAPI
-
-	var (
-		totalScores = make(map[string]int)
-		history = make(map[string][]int)
-	)
+//
+//	var charaMakeAPI CharaMakeAPI
+//
+//	var (
+//		totalScores = make(map[string]int)
+//		history = make(map[string][]int)
+//	)
 
 	r.ParseForm()
-	for key, value := range r.Form {
-		log.Println("key:", key, " value:", value)
-		totalScores[key], history[key] = generateBaseStatus(r, key)
-	}
-	var charaStatus = generatePlayerStatusMap(totalScores)
 
-	charaMakeAPI.BaseStatus = totalScores
-	charaMakeAPI.CharaStatus = charaStatus
-	charaMakeAPI.DiceHistory = history
-	log.Println(charaMakeAPI)
-
-	encoder := json.NewEncoder(w)
-	encoder.Encode(charaMakeAPI)
+	log.Println(r.Form)
+//	for key, value := range r.Form {
+//		log.Println("key:", key, " value:", value)
+//		totalScores[key], history[key] = generateBaseStatus(r, key)
+//	}
+//	var charaStatus = generatePlayerStatusMap(totalScores)
+//
+//	charaMakeAPI.BaseStatus = totalScores
+//	charaMakeAPI.CharaStatus = charaStatus
+//	charaMakeAPI.DiceHistory = history
+//	log.Println(charaMakeAPI)
+//
+//	encoder := json.NewEncoder(w)
+//	encoder.Encode(charaMakeAPI)
 }
 
 func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
