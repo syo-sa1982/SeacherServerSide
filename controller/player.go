@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 const AvoidSkillKey = 5
@@ -38,18 +37,26 @@ func (cntr *Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request)
 }
 
 func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
-
-	var charaMakeAPI CharaMakeAPI
-
 	var (
+		charaMakeAPI CharaMakeAPI
+		baseRolls = map[string][]int{
+			"Strength"     : {6, 3},
+			"Constitution" : {6, 3},
+			"Power"        : {6, 3},
+			"Dextality"    : {6, 3},
+			"Appeal"       : {6, 3},
+			"Size"         : {6, 2, 6},
+			"Intelligence" : {6, 2, 6},
+			"Education"    : {6, 2, 3},
+		}
 		totalScores = make(map[string]int)
 		history = make(map[string][]int)
 	)
 
-	r.ParseForm()
-	for key, value := range r.Form {
+	for key, value := range baseRolls {
 		log.Println("key:", key, " value:", value)
-		totalScores[key], history[key] = generateBaseStatus(r, key)
+		totalScores[key], history[key] = generateBaseStatus(value, key)
+		log.Println(totalScores[key])
 	}
 	var charaStatus = generatePlayerStatusMap(totalScores)
 
@@ -60,6 +67,19 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(charaMakeAPI)
+}
+
+func generateBaseStatus(roll []int, key string) (int, []int) {
+	//	split := strings.Split(r.FormValue(key), ",")
+	serface := roll[0]
+	rollCount := roll[1]
+	log.Println(len(roll))
+	if (len(roll) < 3){
+		return util.Dice{}.DiceRoll(serface, rollCount)
+	} else {
+		total, history := util.Dice{}.DiceRoll(serface, rollCount)
+		return total + roll[2], history
+	}
 }
 
 func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -108,17 +128,17 @@ func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.R
 func (cntr *Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
 
 	var (
-		db = cntr.db
-		SkillSet SkillSetAPI
-	)
+	db = cntr.db
+	SkillSet SkillSetAPI
+)
 
 	var (
-		User = model.User{}
-		PlayerBase = model.PlayerBase{}
-		Player = model.PlayerStatus{}
-		Job = model.JobMaster{}
-		JobSkill = []model.JobSkillMaster{}
-	)
+	User = model.User{}
+	PlayerBase = model.PlayerBase{}
+	Player = model.PlayerStatus{}
+	Job = model.JobMaster{}
+	JobSkill = []model.JobSkillMaster{}
+)
 
 	r.ParseForm()
 	log.Println(r.FormValue("UUID"))
@@ -181,13 +201,6 @@ func MapToStruct(m map[string]int, val interface{}) error {
 		return err
 	}
 	return nil
-}
-
-func generateBaseStatus(r *http.Request, key string) (int, []int) {
-	split := strings.Split(r.FormValue(key), ",")
-	serface, _ := strconv.Atoi(split[0])
-	rollCount, _ := strconv.Atoi(split[1])
-	return util.Dice{}.DiceRoll(serface, rollCount)
 }
 
 func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
