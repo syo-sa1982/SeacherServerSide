@@ -33,6 +33,7 @@ func rooter(m *web.Mux) http.Handler {
 
 	m.Get("/player/joblist", cntr.JobList)
 	m.Post("/player/joblist", cntr.JobList)
+	m.Get("/player/base_make", cntr.PlayerBaseMake)
 	m.Post("/player/base_make", cntr.PlayerBaseMake)
 	m.Post("/player/generate", cntr.PlayerGenerate)
 	m.Post("/player/skill_setting", cntr.SkillSetting)
