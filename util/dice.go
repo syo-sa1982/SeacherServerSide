@@ -4,7 +4,6 @@ import (
 	"log"
 	"math/rand"
 	"time"
-	"github.com/syo-sa1982/SeacherServerSide/controller"
 )
 
 type Dice struct {
