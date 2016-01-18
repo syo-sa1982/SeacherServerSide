@@ -2,6 +2,7 @@ package model
 
 import (
 	"time"
+	"github.com/syo-sa1982/SeacherServerSide/util"
 )
 
 type PlayerBase struct {
@@ -23,6 +24,16 @@ type PlayerBase struct {
 	UpdatedAt time.Time
 	DeletedAt *time.Time
 }
+
+func (base *PlayerBase) createPlayerBase(rolls map[string][]int) PlayerBase {
+	var history = make(map[string][]int)
+	base.Strength, history["Strength"] = util.Dice{}.DiceRoll(rolls["Strength"])
+
+
+
+	return base
+}
+
 
 type PlayerStatus struct {
 	ID int

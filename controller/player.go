@@ -70,16 +70,8 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 }
 
 func generateBaseStatus(roll []int, key string) (int, []int) {
-	//	split := strings.Split(r.FormValue(key), ",")
-	serface := roll[0]
-	rollCount := roll[1]
 	log.Println(len(roll))
-	if (len(roll) < 3){
-		return util.Dice{}.DiceRoll(serface, rollCount)
-	} else {
-		total, history := util.Dice{}.DiceRoll(serface, rollCount)
-		return total + roll[2], history
-	}
+	return util.Dice{}.DiceRoll(roll)
 }
 
 func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
