@@ -10,8 +10,8 @@ type Controller struct {
 }
 
 type CharaMakeAPI struct {
-	BaseStatus, CharaStatus map[string]int
-	DiceHistory             map[string][]int
+	BaseStatus  model.PlayerBase
+	DiceHistory map[string][]int
 }
 
 type SkillSetAPI struct {
