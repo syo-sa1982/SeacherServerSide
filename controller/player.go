@@ -50,7 +50,6 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 			"Intelligence" : {6, 2, 6},
 			"Education"    : {6, 2, 3},
 		}
-//		totalScores = make(map[string]int)
 		history = make(map[string][]int)
 	)
 
@@ -58,13 +57,6 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 
 	log.Println(player)
 
-
-//	for key, value := range baseRolls {
-//		log.Println("key:", key, " value:", value)
-//		totalScores[key], history[key] = generateBaseStatus(value, key)
-//		log.Println(totalScores[key])
-//	}
-//	var charaStatus = generatePlayerStatusMap(totalScores)
 
 	charaMakeAPI.BaseStatus = player
 	charaMakeAPI.DiceHistory = history
