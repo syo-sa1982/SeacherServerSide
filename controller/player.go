@@ -39,7 +39,6 @@ func (cntr *Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request)
 func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
 	var (
 		charaMakeAPI CharaMakeAPI
-		player model.PlayerBase
 		baseRolls = map[string][]int{
 			"Strength"     : {6, 3},
 			"Constitution" : {6, 3},
@@ -50,15 +49,16 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 			"Intelligence" : {6, 2, 6},
 			"Education"    : {6, 2, 3},
 		}
-		history = make(map[string][]int)
 	)
 
-	player, history = createPlayerBase(baseRolls)
+	playerBase, history := createPlayerBase(baseRolls)
+	player := createPlayerStatus(playerBase)
 
+	log.Println(playerBase)
 	log.Println(player)
 
-
-	charaMakeAPI.BaseStatus = player
+	charaMakeAPI.BaseStatus = playerBase
+	charaMakeAPI.Status    = player
 	charaMakeAPI.DiceHistory = history
 	log.Println(charaMakeAPI)
 
@@ -201,6 +201,21 @@ func MapToStruct(m map[string]int, val interface{}) error {
 		return err
 	}
 	return nil
+}
+
+
+func createPlayerStatus(base model.PlayerBase) model.PlayerStatus {
+	return model.PlayerStatus{
+		HP              : calcDivision(2, base.Constitution, base.Size),
+		MP              : base.Power,
+		Sanity          : base.Power * 5,
+		Luck            : base.Power * 5,
+		Idea            : base.Intelligence * 5,
+		Knowledge       : base.Education * 5,
+		JobSkillPoint   : base.Education * 20,
+		HobbySkillPoint : base.Intelligence * 10,
+		DamageBonus     : base.Strength + base.Size,
+	}
 }
 
 func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
