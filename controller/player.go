@@ -38,6 +38,7 @@ func (cntr *Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request)
 
 func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
 	var (
+		db = cntr.db
 		charaMakeAPI CharaMakeAPI
 		baseRolls = map[string][]int{
 			"Strength"     : {6, 3},
@@ -51,11 +52,20 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 		}
 	)
 
-	playerBase, history := createPlayerBase(baseRolls)
-	player := createPlayerStatus(playerBase)
+	User := model.User{}
+	r.ParseForm()
+	User.UUID = r.FormValue("UUID")
+	db.Find(&User)
+
+	playerBase, history := util.CreatePlayerBase(baseRolls)
+	player := util.CreatePlayerStatus(playerBase)
 
 	log.Println(playerBase)
 	log.Println(player)
+
+	playerBase.UserID = User.ID
+	playerBase.Name = User.Name
+	player.UserID = User.ID
 
 	charaMakeAPI.BaseStatus = playerBase
 	charaMakeAPI.Status    = player
@@ -64,22 +74,6 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(charaMakeAPI)
-}
-
-func createPlayerBase(rolls map[string][]int) (model.PlayerBase, map[string][]int) {
-	var history = make(map[string][]int)
-	var base model.PlayerBase
-
-	base.Strength, history["Strength"] = util.Dice{}.DiceRoll(rolls["Strength"])
-	base.Constitution, history["Constitution"] = util.Dice{}.DiceRoll(rolls["Constitution"])
-	base.Power, history["Power"] = util.Dice{}.DiceRoll(rolls["Power"])
-	base.Dextality, history["Dextality"] = util.Dice{}.DiceRoll(rolls["Dextality"])
-	base.Appeal, history["Appeal"] = util.Dice{}.DiceRoll(rolls["Appeal"])
-	base.Size, history["Size"] = util.Dice{}.DiceRoll(rolls["Size"])
-	base.Intelligence, history["Intelligence"] = util.Dice{}.DiceRoll(rolls["Intelligence"])
-	base.Education, history["Education"] = util.Dice{}.DiceRoll(rolls["Education"])
-
-	return base, history
 }
 
 func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -203,20 +197,6 @@ func MapToStruct(m map[string]int, val interface{}) error {
 	return nil
 }
 
-
-func createPlayerStatus(base model.PlayerBase) model.PlayerStatus {
-	return model.PlayerStatus{
-		HP              : calcDivision(2, base.Constitution, base.Size),
-		MP              : base.Power,
-		Sanity          : base.Power * 5,
-		Luck            : base.Power * 5,
-		Idea            : base.Intelligence * 5,
-		Knowledge       : base.Education * 5,
-		JobSkillPoint   : base.Education * 20,
-		HobbySkillPoint : base.Intelligence * 10,
-		DamageBonus     : base.Strength + base.Size,
-	}
-}
 
 func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
 	return map[string]int{
