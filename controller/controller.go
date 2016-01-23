@@ -11,6 +11,7 @@ type Controller struct {
 
 type CharaMakeAPI struct {
 	BaseStatus  model.PlayerBase
+	Status      model.PlayerStatus
 	DiceHistory map[string][]int
 }
 

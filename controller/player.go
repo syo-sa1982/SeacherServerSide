@@ -38,8 +38,8 @@ func (cntr *Controller) JobList(c web.C, w http.ResponseWriter, r *http.Request)
 
 func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.Request) {
 	var (
+		db = cntr.db
 		charaMakeAPI CharaMakeAPI
-		player model.PlayerBase
 		baseRolls = map[string][]int{
 			"Strength"     : {6, 3},
 			"Constitution" : {6, 3},
@@ -50,44 +50,30 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 			"Intelligence" : {6, 2, 6},
 			"Education"    : {6, 2, 3},
 		}
-//		totalScores = make(map[string]int)
-		history = make(map[string][]int)
 	)
 
-	player, history = createPlayerBase(baseRolls)
+	User := model.User{}
+	r.ParseForm()
+	User.UUID = r.FormValue("UUID")
+	db.Find(&User)
 
+	playerBase, history := util.CreatePlayerBase(baseRolls)
+	player := util.CreatePlayerStatus(playerBase)
+
+	log.Println(playerBase)
 	log.Println(player)
 
+	playerBase.UserID = User.ID
+	playerBase.Name = User.Name
+	player.UserID = User.ID
 
-//	for key, value := range baseRolls {
-//		log.Println("key:", key, " value:", value)
-//		totalScores[key], history[key] = generateBaseStatus(value, key)
-//		log.Println(totalScores[key])
-//	}
-//	var charaStatus = generatePlayerStatusMap(totalScores)
-
-	charaMakeAPI.BaseStatus = player
+	charaMakeAPI.BaseStatus = playerBase
+	charaMakeAPI.Status    = player
 	charaMakeAPI.DiceHistory = history
 	log.Println(charaMakeAPI)
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(charaMakeAPI)
-}
-
-func createPlayerBase(rolls map[string][]int) (model.PlayerBase, map[string][]int) {
-	var history = make(map[string][]int)
-	var base model.PlayerBase
-
-	base.Strength, history["Strength"] = util.Dice{}.DiceRoll(rolls["Strength"])
-	base.Constitution, history["Constitution"] = util.Dice{}.DiceRoll(rolls["Constitution"])
-	base.Power, history["Power"] = util.Dice{}.DiceRoll(rolls["Power"])
-	base.Dextality, history["Dextality"] = util.Dice{}.DiceRoll(rolls["Dextality"])
-	base.Appeal, history["Appeal"] = util.Dice{}.DiceRoll(rolls["Appeal"])
-	base.Size, history["Size"] = util.Dice{}.DiceRoll(rolls["Size"])
-	base.Intelligence, history["Intelligence"] = util.Dice{}.DiceRoll(rolls["Intelligence"])
-	base.Education, history["Education"] = util.Dice{}.DiceRoll(rolls["Education"])
-
-	return base, history
 }
 
 func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -210,6 +196,7 @@ func MapToStruct(m map[string]int, val interface{}) error {
 	}
 	return nil
 }
+
 
 func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
 	return map[string]int{
