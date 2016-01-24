@@ -66,6 +66,7 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 	playerBase.UserID = User.ID
 	playerBase.Name = User.Name
 	player.UserID = User.ID
+	player.JobID, _ = strconv.Atoi(r.FormValue("JobID"))
 
 	charaMakeAPI.BaseStatus = playerBase
 	charaMakeAPI.Status    = player
@@ -84,15 +85,17 @@ func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.R
 	User.UUID = r.FormValue("UUID")
 	db.Find(&User)
 
-	var BaseStatus = make(map[string]int)
+	log.Println(r.FormValue("data"))
 
-	log.Println(r.Form)
-	for key, value := range r.Form {
-		log.Println("key:", key, " value:", value)
-		if key != "UUID" || key != "JobID" {
-			BaseStatus[key], _ = strconv.Atoi(value[0])
-		}
-	}
+//	var BaseStatus = make(map[string]int)
+//
+//	log.Println(r.Form)
+////	for key, value := range r.Form {
+////		log.Println("key:", key, " value:", value)
+////		if key != "UUID" || key != "JobID" {
+////			BaseStatus[key], _ = strconv.Atoi(value[0])
+////		}
+////	}
 
 //	var charaStatus = generatePlayerStatusMap(BaseStatus)
 //	log.Println(charaStatus)
