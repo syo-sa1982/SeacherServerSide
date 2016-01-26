@@ -167,15 +167,3 @@ func (cntr *Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Requ
 		db.Create(&playerSkill)
 	}
 }
-
-func MapToStruct(m map[string]int, val interface{}) error {
-	tmp, err := json.Marshal(m)
-	if err != nil {
-		return err
-	}
-	err = json.Unmarshal(tmp, val)
-	if err != nil {
-		return err
-	}
-	return nil
-}
