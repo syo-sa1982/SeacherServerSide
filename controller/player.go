@@ -87,39 +87,19 @@ func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.R
 
 	log.Println(r.FormValue("data"))
 
-//	var BaseStatus = make(map[string]int)
-//
-//	log.Println(r.Form)
-////	for key, value := range r.Form {
-////		log.Println("key:", key, " value:", value)
-////		if key != "UUID" || key != "JobID" {
-////			BaseStatus[key], _ = strconv.Atoi(value[0])
-////		}
-////	}
+	var charaMakeAPI CharaMakeAPI
 
-//	var charaStatus = generatePlayerStatusMap(BaseStatus)
-//	log.Println(charaStatus)
-//
-//	playerBase := model.PlayerBase{}
-//	MapToStruct(BaseStatus, &playerBase)
-//	playerBase.UserID = User.ID
-//	playerBase.Name = User.Name
-//	db.Create(&playerBase)
-//
-//	log.Println(playerBase)
-//
-//	playerStatus := model.PlayerStatus{}
-//	MapToStruct(charaStatus, &playerStatus)
-//	playerStatus.UserID = User.ID
-//	playerStatus.PlayerID = playerBase.ID
-//	playerStatus.JobID, _ = strconv.Atoi(r.FormValue("JobID"))
-//	playerStatus.MaxHP = charaStatus["HP"]
-//	playerStatus.MaxMP = charaStatus["MP"]
-//
-//	db.Create(&playerStatus)
+	json.Unmarshal([]byte(r.FormValue("data")), &charaMakeAPI)
 
-//	log.Println(playerStatus)
+	baseStatus := charaMakeAPI.BaseStatus
+	status     := charaMakeAPI.Status
 
+	db.Create(&baseStatus)
+	status.PlayerID = baseStatus.ID
+
+	db.Create(&status)
+
+	log.Println(charaMakeAPI)
 }
 
 func (cntr *Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -199,29 +179,3 @@ func MapToStruct(m map[string]int, val interface{}) error {
 	}
 	return nil
 }
-
-
-//func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
-//	return map[string]int{
-//		"HP":              calcDivision(2, baseStatus["Constitution"], baseStatus["Size"]),
-//		"MP":              baseStatus["Power"],
-//		"Sanity":          baseStatus["Power"] * 5,
-//		"Luck":            baseStatus["Power"] * 5,
-//		"Idea":            baseStatus["Intelligence"] * 5,
-//		"Knowledge":       baseStatus["Education"] * 5,
-//		"JobSkillPoint":   baseStatus["Education"] * 20,
-//		"HobbySkillPoint": baseStatus["Intelligence"] * 10,
-//		"DamageBonus":     baseStatus["Strength"] + baseStatus["Size"]}
-//}
-//
-//func calcDivision(multiple int, params ...int) int {
-//	var sum int = 0
-//	for _, param := range params {
-//		sum += param
-//	}
-//	if sum > 0 {
-//		return sum / multiple
-//	} else {
-//		return sum
-//	}
-//}
