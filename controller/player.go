@@ -66,6 +66,7 @@ func (cntr *Controller) PlayerBaseMake(c web.C, w http.ResponseWriter, r *http.R
 	playerBase.UserID = User.ID
 	playerBase.Name = User.Name
 	player.UserID = User.ID
+	player.JobID, _ = strconv.Atoi(r.FormValue("JobID"))
 
 	charaMakeAPI.BaseStatus = playerBase
 	charaMakeAPI.Status    = player
@@ -84,39 +85,21 @@ func (cntr *Controller) PlayerGenerate(c web.C, w http.ResponseWriter, r *http.R
 	User.UUID = r.FormValue("UUID")
 	db.Find(&User)
 
-	var BaseStatus = make(map[string]int)
+	log.Println(r.FormValue("data"))
 
-	log.Println(r.Form)
-	for key, value := range r.Form {
-		log.Println("key:", key, " value:", value)
-		if key != "UUID" || key != "JobID" {
-			BaseStatus[key], _ = strconv.Atoi(value[0])
-		}
-	}
+	var charaMakeAPI CharaMakeAPI
 
-	var charaStatus = generatePlayerStatusMap(BaseStatus)
-	log.Println(charaStatus)
+	json.Unmarshal([]byte(r.FormValue("data")), &charaMakeAPI)
 
-	playerBase := model.PlayerBase{}
-	MapToStruct(BaseStatus, &playerBase)
-	playerBase.UserID = User.ID
-	playerBase.Name = User.Name
-	db.Create(&playerBase)
+	baseStatus := charaMakeAPI.BaseStatus
+	status     := charaMakeAPI.Status
 
-	log.Println(playerBase)
+	db.Create(&baseStatus)
+	status.PlayerID = baseStatus.ID
 
-	playerStatus := model.PlayerStatus{}
-	MapToStruct(charaStatus, &playerStatus)
-	playerStatus.UserID = User.ID
-	playerStatus.PlayerID = playerBase.ID
-	playerStatus.JobID, _ = strconv.Atoi(r.FormValue("JobID"))
-	playerStatus.MaxHP = charaStatus["HP"]
-	playerStatus.MaxMP = charaStatus["MP"]
+	db.Create(&status)
 
-	db.Create(&playerStatus)
-
-	log.Println(playerStatus)
-
+	log.Println(charaMakeAPI)
 }
 
 func (cntr *Controller) SkillSetting(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -182,43 +165,5 @@ func (cntr *Controller) SkillSubmit(c web.C, w http.ResponseWriter, r *http.Requ
 		playerSkill.SkillID = SkillApi[key].ID
 		playerSkill.Value = SkillApi[key].Value
 		db.Create(&playerSkill)
-	}
-}
-
-func MapToStruct(m map[string]int, val interface{}) error {
-	tmp, err := json.Marshal(m)
-	if err != nil {
-		return err
-	}
-	err = json.Unmarshal(tmp, val)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-
-func generatePlayerStatusMap(baseStatus map[string]int) map[string]int {
-	return map[string]int{
-		"HP":              calcDivision(2, baseStatus["Constitution"], baseStatus["Size"]),
-		"MP":              baseStatus["Power"],
-		"Sanity":          baseStatus["Power"] * 5,
-		"Luck":            baseStatus["Power"] * 5,
-		"Idea":            baseStatus["Intelligence"] * 5,
-		"Knowledge":       baseStatus["Education"] * 5,
-		"JobSkillPoint":   baseStatus["Education"] * 20,
-		"HobbySkillPoint": baseStatus["Intelligence"] * 10,
-		"DamageBonus":     baseStatus["Strength"] + baseStatus["Size"]}
-}
-
-func calcDivision(multiple int, params ...int) int {
-	var sum int = 0
-	for _, param := range params {
-		sum += param
-	}
-	if sum > 0 {
-		return sum / multiple
-	} else {
-		return sum
 	}
 }
