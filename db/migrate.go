@@ -21,13 +21,15 @@ func main() {
 	_ = yaml.Unmarshal([]byte(yml), &t)
 
 	conn := t[os.Getenv("GOJIENV")].(map[interface{}]interface{})
+	var password string
+	if len(conn["password"].(string)) > 0 {password = ":"+conn["password"].(string)}else{password = ""}
 
-	db, err := gorm.Open("mysql", conn["user"].(string)+conn["password"].(string)+"@/"+conn["db"].(string)+"?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", conn["user"].(string)+password+"@/"+conn["db"].(string)+"?charset=utf8&parseTime=True")
 	if err != nil {
 		panic(err)
 	}
 
-	if os.Args[1] == "setup" {
+	if len(os.Args) > 1 && os.Args[1] == "setup" {
 		log.Println("User")
 		if db.HasTable(&model.User{}) {
 			db.DropTable(&model.User{})
