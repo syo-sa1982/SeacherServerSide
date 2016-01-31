@@ -65,8 +65,10 @@ func init() {
 	_ = yaml.Unmarshal([]byte(yml), &t)
 
 	conn := t[os.Getenv("GOJIENV")].(map[interface{}]interface{})
+	var password string
+	if len(conn["password"].(string)) > 0 {password = ":"+conn["password"].(string)}else{password = ""}
 
-	db, err := gorm.Open("mysql", conn["user"].(string)+conn["password"].(string)+"@/"+conn["db"].(string)+"?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", conn["user"].(string)+password+"@/"+conn["db"].(string)+"?charset=utf8&parseTime=True")
 	if err != nil {
 		panic(err)
 	}
